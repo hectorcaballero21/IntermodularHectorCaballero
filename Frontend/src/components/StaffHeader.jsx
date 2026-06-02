@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../assets/css/sharedLayout.css'
-import { createUsuario, deleteUsuario, getUsuarios } from '../services/usuarioService'
+import { createUsuario, deleteUsuario, getUsuarios, updateUsuario } from '../services/usuarioService'
 import { createAlerta, deleteAlerta, getAlertas, updateAlerta } from '../services/alertaService'
 import { createMensajeContacto, deleteMensajeContacto, getMensajesContacto, marcarMensajeComoLeido, responderMensajeContacto } from '../services/mensajeContactoService'
 import { useToast } from '../context/ToastContext'
@@ -41,6 +41,15 @@ function StaffHeader() {
   const [paginaUsuarios, setPaginaUsuarios] = useState(1)
   const [mostrarConfirmacionEliminar, setMostrarConfirmacionEliminar] = useState(false)
   const [eliminandoUsuario, setEliminandoUsuario] = useState(false)
+  const [usuarioEditando, setUsuarioEditando] = useState(null)
+  const [guardandoEdicionUsuario, setGuardandoEdicionUsuario] = useState(false)
+  const [formEditarUsuario, setFormEditarUsuario] = useState({
+    nombre: '',
+    apellidos: '',
+    email: '',
+    password: '',
+    rol: 'medico',
+  })
 
   const [alertas, setAlertas] = useState([])
   const [cargandoAlertas, setCargandoAlertas] = useState(true)
@@ -214,6 +223,118 @@ function StaffHeader() {
       showToast('No se pudo eliminar el usuario', 'error')
     } finally {
       setEliminandoUsuario(false)
+    }
+  }
+
+  const abrirEdicionUsuario = () => {
+    if (!usuarioSeleccionado) return
+
+    setUsuarioEditando(usuarioSeleccionado)
+    setFormEditarUsuario({
+      nombre: usuarioSeleccionado.nombre || '',
+      apellidos: usuarioSeleccionado.apellidos || '',
+      email: usuarioSeleccionado.email || '',
+      password: usuarioSeleccionado.password || '',
+      rol: usuarioSeleccionado.rol || 'medico',
+    })
+  }
+
+  const handleEditarUsuarioChange = (e) => {
+    setFormEditarUsuario({
+      ...formEditarUsuario,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const guardarEdicionUsuario = async (e) => {
+    e.preventDefault()
+
+    if (!usuarioEditando) return
+
+    if (!formEditarUsuario.nombre.trim()) {
+      showToast('El nombre es obligatorio', 'warning')
+      return
+    }
+
+    if (!formEditarUsuario.apellidos.trim()) {
+      showToast('Los apellidos son obligatorios', 'warning')
+      return
+    }
+
+    if (!formEditarUsuario.email.trim()) {
+      showToast('El email es obligatorio', 'warning')
+      return
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formEditarUsuario.email)) {
+      showToast('Introduce un email válido', 'warning')
+      return
+    }
+
+    if (formEditarUsuario.password.length < 8 || !/[0-9]/.test(formEditarUsuario.password)) {
+      showToast('La contraseña debe tener mínimo 8 caracteres y 1 número', 'warning')
+      return
+    }
+
+    const idUsuarioEditar =
+      usuarioEditando.id ??
+      usuarioEditando.idUsuario
+
+    try {
+      setGuardandoEdicionUsuario(true)
+
+      const usuariosExistentes = usuarios || []
+
+      const emailExiste = usuariosExistentes.some((usuario) => {
+        const idUsuario =
+          usuario.id ??
+          usuario.idUsuario
+
+        return (
+          Number(idUsuario) !== Number(idUsuarioEditar) &&
+          String(usuario.email || '').toLowerCase().trim() ===
+          String(formEditarUsuario.email || '').toLowerCase().trim()
+        )
+      })
+
+      if (emailExiste) {
+        showToast('Ya existe otro usuario con ese email', 'warning')
+        return
+      }
+
+      const usuarioActualizado = {
+        ...usuarioEditando,
+        nombre: formEditarUsuario.nombre.trim(),
+        apellidos: formEditarUsuario.apellidos.trim(),
+        email: formEditarUsuario.email.trim(),
+        password: formEditarUsuario.password,
+        rol: formEditarUsuario.rol,
+      }
+
+      const res = await updateUsuario(idUsuarioEditar, usuarioActualizado)
+      const usuarioRespuesta = res.data || usuarioActualizado
+
+      setUsuarios((prev) =>
+        prev.map((usuario) =>
+          Number(usuario.id ?? usuario.idUsuario) === Number(idUsuarioEditar)
+            ? usuarioRespuesta
+            : usuario,
+        ),
+      )
+
+      setUsuarioSeleccionado(usuarioRespuesta)
+      setUsuarioEditando(usuarioRespuesta)
+
+      if (Number(idUsuarioEditar) === Number(idUsuarioLogeado)) {
+        localStorage.setItem('usuario', JSON.stringify(usuarioRespuesta))
+      }
+
+      showToast('Usuario modificado correctamente', 'success')
+    } catch (error) {
+      console.error(error)
+      showToast('No se pudo modificar el usuario', 'error')
+    } finally {
+      setGuardandoEdicionUsuario(false)
     }
   }
 
@@ -1037,7 +1158,17 @@ function StaffHeader() {
                     <span>{usuarioSeleccionado.rol || 'No disponible'}</span>
                   </div>
 
-                  <div className="admin-actions">
+                  <div className="admin-actions admin-actions-multiple">
+                    <button
+                      type="button"
+                      className="btn-admin-usuario btn-modificar-usuario-admin"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editarUsuarioAdminModal"
+                      onClick={abrirEdicionUsuario}
+                    >
+                      Modificar usuario
+                    </button>
+
                     {esUsuarioActual(usuarioSeleccionado) ? (
                       <button
                         type="button"
@@ -1066,6 +1197,90 @@ function StaffHeader() {
         </div>
       </div>
 
+
+      <div className="modal fade" id="editarUsuarioAdminModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content usuario-modal-content">
+            <div className="modal-header usuario-modal-header modal-header-con-volver">
+              <button
+                type="button"
+                className="btn-modal-volver"
+                data-bs-toggle="modal"
+                data-bs-target="#detalleUsuarioAdminModal"
+                title="Volver al detalle del usuario"
+              >
+                ←
+              </button>
+
+              <h5 className="modal-title">Modificar usuario</h5>
+
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <div className="modal-body usuario-modal-body">
+              <form className="editar-usuario-form" onSubmit={guardarEdicionUsuario}>
+                <label>Nombre:</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  placeholder="Introduce el nombre"
+                  value={formEditarUsuario.nombre}
+                  onChange={handleEditarUsuarioChange}
+                />
+
+                <label>Apellidos:</label>
+                <input
+                  type="text"
+                  name="apellidos"
+                  placeholder="Introduce los apellidos"
+                  value={formEditarUsuario.apellidos}
+                  onChange={handleEditarUsuarioChange}
+                />
+
+                <label>Email:</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Introduce el email"
+                  value={formEditarUsuario.email}
+                  onChange={handleEditarUsuarioChange}
+                />
+
+                <label>Contraseña:</label>
+                <input
+                  type="text"
+                  name="password"
+                  placeholder="Mínimo 8 caracteres y 1 número"
+                  value={formEditarUsuario.password}
+                  onChange={handleEditarUsuarioChange}
+                />
+
+                <label>Rol:</label>
+                <select
+                  name="rol"
+                  value={formEditarUsuario.rol}
+                  onChange={handleEditarUsuarioChange}
+                >
+                  <option value="medico">Médico</option>
+                  <option value="admin">Admin</option>
+                </select>
+
+                <button
+                  type="submit"
+                  className="btn-admin-usuario btn-guardar-edicion-usuario"
+                  disabled={guardandoEdicionUsuario}
+                >
+                  {guardandoEdicionUsuario ? 'Guardando...' : 'Guardar cambios'}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="modal fade" id="enviarMensajeAdminModal" tabIndex="-1">
         <div className="modal-dialog modal-dialog-centered">
