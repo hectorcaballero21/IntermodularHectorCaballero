@@ -1,0 +1,416 @@
+html,
+body,
+#root {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .header-link {
+        font-size: 19px !important;
+    }
+
+    .header-nav {
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+        gap: 8px !important;
+    }
+
+    .header-user {
+        width: 250px !important;
+    }
+
+    .user-button {
+        font-size: 15px !important;
+        padding: 10px 12px !important;
+    }
+
+    .perfil-icon {
+        width: 46px !important;
+        height: 46px !important;
+    }
+
+    .footer-brand-title,
+    .footer-left {
+        font-size: 20px !important;
+    }
+
+    .footer-right span {
+        font-size: 16px !important;
+        max-width: 220px !important;
+    }
+}
+
+@media (max-width: 992px) {
+    body {
+        background-size: cover !important;
+        background-position: center center !important;
+        min-height: 100vh;
+        padding-top: 92px;
+        padding-bottom: 150px;
+    }
+
+    .header-custom {
+        height: 92px !important;
+        align-items: stretch !important;
+        flex-wrap: wrap !important;
+        padding: 6px 8px !important;
+    }
+
+    .header-nav {
+        order: 2;
+        width: 100% !important;
+        flex: none !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        padding: 0 !important;
+        gap: 6px !important;
+    }
+
+    .header-item {
+        min-width: 0 !important;
+    }
+
+    .header-link {
+        font-size: 14px !important;
+        text-align: center !important;
+        white-space: normal !important;
+        line-height: 1.15 !important;
+    }
+
+    .custom-dropdown {
+        top: 28px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        min-width: 205px !important;
+        max-width: 90vw !important;
+    }
+
+    .custom-dropdown li a {
+        font-size: 14px !important;
+        padding: 10px 12px !important;
+    }
+
+    .header-alertas {
+        order: 1;
+        margin-left: auto !important;
+        margin-right: 8px !important;
+    }
+
+    .alertas-header-btn {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 22px !important;
+    }
+
+    .header-user {
+        order: 1;
+        width: auto !important;
+        padding-right: 0 !important;
+        gap: 6px !important;
+    }
+
+    .perfil-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .user-button {
+        font-size: 13px !important;
+        padding: 8px 9px !important;
+        max-width: 160px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .footer-custom {
+        min-height: 130px !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-areas:
+            "brand right"
+            "links links" !important;
+        gap: 8px 14px !important;
+        padding: 12px 18px !important;
+    }
+
+    .footer-brand {
+        grid-area: brand;
+    }
+
+    .footer-center {
+        grid-area: links;
+        flex-direction: row !important;
+        gap: 18px !important;
+    }
+
+    .footer-right {
+        grid-area: right;
+        gap: 8px !important;
+    }
+
+    .footer-brand-title,
+    .footer-left {
+        font-size: 16px !important;
+    }
+
+    .footer-brand-subtitle {
+        font-size: 12px !important;
+    }
+
+    .footer-center a {
+        font-size: 14px !important;
+    }
+
+    .footer-right span {
+        display: none !important;
+    }
+
+    .footer-right img {
+        width: 52px !important;
+    }
+
+    .w3c-logos img {
+        width: 68px !important;
+        height: auto !important;
+    }
+
+    .legal-btn {
+        bottom: 8px !important;
+        left: 8px !important;
+        font-size: 12px !important;
+        padding: 6px 9px !important;
+    }
+
+    .logo-sescam-ver-pacientes,
+    .logo-sescam-citas,
+    .logo-sescam-nueva-cita,
+    .logo-sescam-nuevo-paciente,
+    .logo-sescam-eliminar-pacientes,
+    .logo-sescam-eliminar-citas,
+    .logo-sescam-gestion-citas,
+    .logo-sescam-consulta,
+    .logo-sescam-horario,
+    .area-logo-sescam {
+        position: fixed !important;
+        top: 100px !important;
+        left: 10px !important;
+        width: 150px !important;
+        opacity: 0.28 !important;
+        z-index: -1 !important;
+        margin: 0 !important;
+    }
+
+    .contenedor-principal-pacientes,
+    .citas-page,
+    .contenedor-eliminar,
+    .contenedor-formulario-cita,
+    .contenedor-paciente,
+    .contenedor-paciente-consulta,
+    .contenedor-botones,
+    .horario-layout,
+    .area-calendario-layout,
+    .calendario-citas-layout {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        width: min(94%, 760px) !important;
+        max-width: 760px !important;
+        margin: 24px auto 165px !important;
+    }
+
+    .contenedor-principal-pacientes,
+    .citas-page,
+    .horario-layout,
+    .area-calendario-layout,
+    .calendario-citas-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 18px !important;
+    }
+
+    .contenedor-busqueda-pacientes,
+    .tabla-pacientes-box,
+    .selector-fecha,
+    .tabla-citas-fecha,
+    .horario-info-card,
+    .horario-tabla-card,
+    .area-info-card,
+    .area-citas-card,
+    .selector-fecha-card,
+    .tabla-calendario-card {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .contenedor-paciente,
+    .contenedor-formulario-cita,
+    .contenedor-eliminar,
+    .contenedor-paciente-consulta {
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 18px !important;
+        box-sizing: border-box !important;
+    }
+
+    .btn-confirmar-paciente {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        margin: 16px 0 0 !important;
+    }
+
+    .tabla-pacientes-box,
+    .tabla-citas-fecha {
+        min-height: auto !important;
+        overflow-x: auto !important;
+    }
+
+    .tabla-scroll-citas,
+    .usuarios-admin-table-wrapper,
+    .tabla-calendario-scroll {
+        max-height: none !important;
+        overflow-x: auto !important;
+    }
+
+    .tabla-pacientes-real,
+    .tabla-citas-mejorada,
+    .horario-table,
+    .area-table,
+    .tabla-calendario {
+        min-width: 650px !important;
+        font-size: 15px !important;
+    }
+
+    .btn-consultar-pacientes,
+    .btn-buscar-pacientes,
+    .btn-limpiar-fecha,
+    .btn-confirmar-cita,
+    .boton-eliminar,
+    .boton-opcion {
+        font-size: 15px !important;
+        padding: 9px 12px !important;
+    }
+
+    .input-dato,
+    .input-cita,
+    .input-eliminar,
+    .fecha-input,
+    .busqueda-paciente-input,
+    .select-filtro-pacientes,
+    .input-busqueda-pacientes {
+        font-size: 15px !important;
+        min-height: 38px !important;
+    }
+
+    .paginacion-pacientes,
+    .paginacion-citas,
+    .paginacion-admin-usuarios,
+    .paginacion-usuarios {
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 105px;
+        padding-bottom: 128px;
+    }
+
+    .header-custom {
+        height: 104px !important;
+    }
+
+    .header-link {
+        font-size: 12px !important;
+    }
+
+    .user-button {
+        max-width: 125px !important;
+        font-size: 12px !important;
+    }
+
+    .footer-custom {
+        min-height: 118px !important;
+        padding: 9px 12px !important;
+        gap: 6px !important;
+    }
+
+    .footer-brand-title,
+    .footer-left {
+        font-size: 13px !important;
+    }
+
+    .footer-brand-subtitle {
+        display: none !important;
+    }
+
+    .footer-center {
+        gap: 10px !important;
+    }
+
+    .footer-center a {
+        font-size: 12px !important;
+    }
+
+    .footer-right img {
+        width: 42px !important;
+    }
+
+    .w3c-logos {
+        display: none !important;
+    }
+
+    .contenedor-principal-pacientes,
+    .citas-page,
+    .contenedor-eliminar,
+    .contenedor-formulario-cita,
+    .contenedor-paciente,
+    .contenedor-paciente-consulta,
+    .contenedor-botones,
+    .horario-layout,
+    .area-calendario-layout,
+    .calendario-citas-layout {
+        width: 94% !important;
+        margin-top: 18px !important;
+        margin-bottom: 145px !important;
+    }
+
+    .contenedor-paciente h2,
+    .titulo-cita,
+    .titulo-tabla-pacientes,
+    .cabecera-tabla-citas h3,
+    .contenedor-eliminar h2,
+    .area-info-card h2,
+    .horario-info-card h2 {
+        font-size: 20px !important;
+    }
+
+    .tabla-pacientes-real,
+    .tabla-citas-mejorada,
+    .horario-table,
+    .area-table,
+    .tabla-calendario {
+        min-width: 590px !important;
+        font-size: 13px !important;
+    }
+
+    .custom-calendar-popover {
+        left: 10px !important;
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+}

@@ -1,0 +1,57 @@
+body {
+    background-image: url("/img/fondohospi.png");
+    background-size: cover;
+    background-position: center 40%;
+    font-family: Abadi, sans-serif;
+    color: #2C2C2C;
+    margin: 0;
+}
+
+.logo-sescam-gestion-citas {
+    position: absolute;
+    top: 10%;
+    left: 1%;
+    width: 430px;
+    z-index: -1;
+}
+
+.contenedor-botones {
+    position: absolute;
+    top: 35%;
+    left: 35%;
+    background: rgba(255, 255, 255, 0.88);
+    border: 2px solid #004080;
+    border-radius: 12px;
+    padding: 30px 40px;
+    width: auto;
+    box-shadow: 0 0 12px rgba(0,0,0,0.30);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+}
+
+.boton-opcion {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #004080;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 22px;
+    transition: 0.25s;
+    margin: 0;
+}
+
+.boton-opcion:hover {
+    background: #0060c0;
+    transform: scale(1.03);
+}
+
+.icono {
+    width: 40px;
+    height: 40px;
+}

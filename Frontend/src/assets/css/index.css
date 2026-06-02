@@ -1,0 +1,531 @@
+body {
+    background-image: url("/img/fondohospi.png"); 
+    background-size: cover; 
+    background-position: center 40%; 
+    margin: 0; 
+    font-family: Abadi, sans-serif;
+    color: #2C2C2C;
+}
+
+.footer-toggle {
+    visibility: hidden;
+}
+
+.menu-responsive-btn {
+    display: none;
+}
+
+.legal-btn{
+    position: fixed;
+    bottom: 10px;
+    left: 15px;
+    background: rgba(0,0,0,0.75);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.legal-btn:hover{
+    background: black;
+}
+
+.w3c-logos{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-left: 10px;
+}
+
+.w3c-logos img{
+    width: 88px;
+    height: 31px;
+}
+
+.logo-sescam {
+    position: absolute;
+    top: 2%; 
+    left: 1%; 
+    width: 480px; 
+}
+
+.mensaje {
+    position: absolute;
+    top: 32%;
+    left: 50%;
+    transform: translateX(-40%);
+    background: #FFFFFF;
+    padding: 25px 35px; 
+    border-radius: 8px;
+    font-size: 24px; 
+    font-weight: bold;
+    text-align: center;
+}
+
+.boton-login {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-27%);
+    background: #ebad05; 
+    padding: 18px 28px; 
+    border-radius: 8px;
+    text-decoration: none;
+    color: #000000; 
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 35px; 
+    font-weight: bold;
+}
+
+.boton-login img {
+    width: 26px; 
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #8CF7FF;
+    padding: 20px 50px; 
+    font-size: 18px; 
+}
+
+.footer-left {
+    font-size: 30px; 
+    margin-left: 40px;
+}
+
+.footer-center {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    text-align: center;
+    margin-left: 110px;
+}
+
+.footer-center a {
+    text-decoration: none;
+    color: #2C2C2C;
+    font-size: 28px;
+}
+
+.footer-center a:hover {
+    color: #005A8C;
+    transform: scale(1.08);
+    transition: 0.2s;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 20px; 
+}
+
+.footer-right span {
+    font-size: 30px; 
+}
+
+.footer-right img {
+    width: 90px; 
+}
+
+@media (max-width: 1919px) {
+
+    .logo-sescam {
+        width: 300px;
+        top: 10px;
+        left: 10px;
+    }
+
+    .txt {
+        transform: translateX(20px);
+    }
+
+    .imgac {
+        transform: translateX(-120px);
+    }
+
+    .mensaje {
+        width: 60%;
+        height: 28%;
+        top: 7%;
+        margin-left: 0%;
+        font-size: 32px !important;
+    }
+
+    .boton-login {
+        width: 10%;
+        height: 20%;
+        top: 40%;
+        margin-left: 0%;
+        font-size: 30px !important;
+    }
+
+    body {
+    background-position: center 20%; 
+}
+ 
+    footer {
+        padding: 15px 30px;
+    }
+
+    .footer-left,
+    .footer-right span {
+        font-size: 22px;
+    }
+
+    .footer-right {
+        padding-left: 8%;
+    }
+
+    .footer-center a {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 1613px) {
+        .boton-login {
+        width: 15%;
+        height: 20%;
+        top: 40%;
+        margin-left: 4%;
+        font-size: 28px !important;
+    }
+
+    .txt {
+        transform: translateX(40px);
+    }
+
+    .imgac {
+        transform: translateX(-170px);
+    }
+
+}
+
+@media (max-width: 1499px) {
+
+    .imgac {
+        transform: translateX(-130px);
+    }
+
+}
+
+@media (max-width: 1200px) {
+
+    .logo-sescam {
+        width: 300px;
+        top: 10px;
+        left: 10px;
+    }
+
+    .imgac {
+        transform: translateX(-150px);
+    }
+
+    .mensaje {
+        width: 60%;
+        height: 28%;
+        top: 7%;
+        margin-left: 5%;
+        font-size: 32px !important;
+    }
+
+    .boton-login {
+        width: 20%;
+        height: 20%;
+        top: 40%;
+        margin-left: 4%;
+        font-size: 28px !important;
+    }
+
+    body {
+    background-position: center 20%; 
+}
+ 
+    footer {
+        padding: 15px 30px;
+    }
+
+    .footer-left,
+    .footer-right span {
+        font-size: 22px;
+    }
+
+    .footer-right {
+        padding-left: 8%;
+    }
+
+    .footer-center a {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .logo-sescam {
+        width: 270px;
+        top: 10px;
+        left: 10px;
+    }
+
+    .imgac {
+        transform: translateX(-210px);
+    }
+
+    .mensaje {
+        width: 60%;
+        height: 28%;
+        top: 7%;
+        margin-left: 14%;
+        font-size: 32px !important;
+    }
+
+    .boton-login {
+        width: 30%;
+        height: 20%;
+        top: 40%;
+        margin-left: 14%;
+        font-size: 30px !important;
+    }
+
+    body {
+    background-position: center 20%; 
+}
+ 
+    footer {
+        padding: 15px 30px;
+    }
+
+    .footer-left,
+    .footer-right span {
+        font-size: 22px;
+    }
+
+    .footer-right {
+        padding-left: 8%;
+    }
+
+    .footer-center a {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 870px) {
+
+    .imgac {
+        transform: translateX(-180px);
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .logo-sescam {
+        width: 250px;
+        top: 8px;
+        left: 8px;
+        margin-top: 7%;
+    }
+
+    .imgac {
+        transform: translateX(-130px);
+    }
+
+    .mensaje {
+        width: 60%;
+        height: 28%;
+        top: 15%;
+        margin-left: 12%;
+        font-size: 28px !important;
+    }
+
+    .boton-login {
+        width: 30%;
+        height: 10%;
+        top: 50%;
+        margin-left: 10%;
+        font-size: 20px !important;
+    }
+
+    body {
+    background-position: center 0%; 
+}
+
+    footer {
+        padding: 15px 30px;
+    }
+
+    .footer-left,
+    .footer-right span {
+        font-size: 22px;
+    }
+
+    .footer-right {
+        padding-left: 8%;
+    }
+
+    .footer-center a {
+        font-size: 22px;
+    }
+
+}
+
+@media (max-width: 680px) {
+
+    .logo-sescam {
+        width: 180px;
+        top: 8px;
+        left: 8px;
+        margin-top: 7%;
+    }
+
+    .mensaje {
+        width: 60%;
+        height: 28%;
+        top: 7%;
+        margin-left: 14%;
+        font-size: 22px !important;
+    }
+
+    .boton-login {
+        width: 40%;
+        height: 10%;
+        top: 40%;
+        margin-left: 14%;
+        font-size: 20px !important;
+    }
+
+    body {
+    background-position: center 0%; 
+}
+
+    .menu-responsive-btn {
+        display: block;
+        position: fixed;
+        bottom: 60px;
+        right: 597px;
+        background: rgba(0,0,0,0.75);
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        z-index: 9999;
+        text-align: center;
+    }
+
+    .menu-responsive-btn:hover {
+        background: black;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0px;
+        transition: bottom 0.4s ease;
+        flex-direction: column;
+        text-align: center;
+        padding: 12px 10px;
+        height: auto;
+        margin-top: 30%;
+    }
+
+    footer.activo {
+        bottom: 0;
+    }
+
+    footer.oculto {
+    bottom: -260px;
+    }
+
+    .footer-toggle {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    background: #2C2C2C;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    z-index: 1100;
+    font-size: 14px;
+    transition: background 0.3s;
+    visibility: visible;
+    }
+
+    .footer-toggle:hover {
+        background: black;
+    }
+
+    .footer-left {
+        margin-left: 0;
+        font-size: 16px;
+        margin-top: -3%;
+    }
+
+    .footer-center {
+        margin-left: 0;
+        margin-top: 8%;
+    }
+
+    .footer-center a {
+        font-size: 16px;
+        transform: translateY(-120%);
+    }
+
+    .footer-center a:hover {
+    transform: translateY(-120%) scale(1.08);
+}
+
+    .txt2 {
+        transform: translateX(10%);
+    }
+
+    .footer-right {
+        margin-right: -70px;
+    }
+
+    .footer-right span {
+        font-size: 16px;
+    }
+
+    .footer-right img {
+        width: 60px;
+    }
+
+    .w3c-logos {
+        margin-top: -50%;
+        transform: translateX(80%);
+    }
+
+    .jccm {
+        margin-top: -50%;
+        transform: translateX(50%);
+    }
+}
+
+@media (min-height: 750px) and (max-width: 680px) {
+
+    .mensaje {
+        top: 23%;
+        height: 18%;
+    }
+
+    .boton-login {
+        top: 42%;
+        left: 48%
+    }
+
+    .logo-sescam {
+        width: 36%;
+        transform: translateY(34%);
+    }
+
+}

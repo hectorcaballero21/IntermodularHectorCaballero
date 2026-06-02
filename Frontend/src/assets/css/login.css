@@ -1,0 +1,340 @@
+body {
+    background-image: url("/img/fondohospi.png");
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    margin: 0;
+    font-family: Abadi, sans-serif;
+    color: #2C2C2C;
+    min-height: 100vh;
+}
+
+.logo-sescam {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 360px;
+    z-index: 5;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    width: 440px;
+
+    background: rgba(255,255,255,0.96);
+
+    border: 2px solid #004080;
+    border-radius: 18px;
+
+    padding: 35px 40px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.25),
+        0 0 15px rgba(0,64,128,0.18);
+
+    backdrop-filter: blur(4px);
+}
+
+.login-box h2 {
+    font-size: 34px;
+    color: #004080;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.login-box .form-label {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px 14px;
+
+    border-radius: 10px;
+    border: 2px solid #d4d4d4;
+
+    font-size: 18px;
+
+    transition: 0.25s;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #004080;
+    box-shadow: 0 0 10px rgba(0,64,128,0.2);
+}
+
+.login-box input.error-input {
+    border-color: #dc3545;
+    background: rgba(220,53,69,0.05);
+}
+
+.error-text {
+    color: #dc3545;
+    font-size: 15px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.login-info {
+    color: #b30000;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 22px;
+    font-size: 15px;
+}
+
+.btn-dark {
+    background: linear-gradient(135deg, #2c2c2c, #111111) !important;
+    border: none !important;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    transition: 0.25s;
+}
+
+.btn-dark:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #004080, #005bb5) !important;
+
+    box-shadow: 0 6px 14px rgba(0,64,128,0.3);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(255,255,255,0.96);
+
+    border-top: 4px solid #004080;
+
+    padding: 14px 40px;
+
+    box-shadow: 0 -3px 12px rgba(0,0,0,0.12);
+
+    z-index: 50;
+}
+
+.footer-left {
+    font-size: 24px;
+    font-weight: bold;
+    color: #004080;
+}
+
+.footer-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.footer-center a {
+    text-decoration: none;
+    color: #2C2C2C;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.footer-center a:hover {
+    color: #004080;
+    transform: scale(1.05);
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-right span {
+    font-size: 22px;
+    color: #004080;
+    font-weight: bold;
+}
+
+.footer-right img {
+    width: 72px;
+}
+
+/* =========================
+   BOTÓN LEGAL
+========================= */
+
+.legal-btn {
+    position: fixed;
+    bottom: 14px;
+    left: 14px;
+
+    background: rgba(0,0,0,0.82);
+    color: white;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    z-index: 9999;
+
+    transition: 0.2s;
+}
+
+.legal-btn:hover {
+    background: black;
+    transform: scale(1.04);
+}
+
+/* =========================
+   W3C
+========================= */
+
+.w3c-logos {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-left: 10px;
+}
+
+.w3c-logos img {
+    width: 88px;
+    height: 31px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
+
+    .logo-sescam {
+        width: 240px;
+    }
+
+    .login-box {
+        width: 80%;
+        max-width: 420px;
+        padding: 30px;
+    }
+
+    .login-box h2 {
+        font-size: 28px;
+    }
+
+    .login-box input {
+        font-size: 16px;
+    }
+
+    .btn-dark {
+        font-size: 18px;
+    }
+
+    footer {
+        padding: 12px 20px;
+    }
+
+    .footer-left,
+    .footer-right span {
+        font-size: 18px;
+    }
+
+    .footer-center a {
+        font-size: 16px;
+    }
+
+    .footer-right img {
+        width: 60px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    body {
+        background-position: center top;
+    }
+
+    .logo-sescam {
+        width: 170px;
+        top: 10px;
+        left: 10px;
+    }
+
+    .login-box {
+        width: 86%;
+        padding: 24px 20px;
+        top: 47%;
+    }
+
+    .login-box h2 {
+        font-size: 24px;
+    }
+
+    .login-box .form-label {
+        font-size: 16px;
+    }
+
+    .login-box input {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .btn-dark {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 12px 10px;
+    }
+
+    .footer-left {
+        font-size: 16px;
+    }
+
+    .footer-center {
+        margin: 0;
+    }
+
+    .footer-center a {
+        font-size: 14px;
+    }
+
+    .footer-right {
+        margin: 0;
+    }
+
+    .footer-right span {
+        font-size: 15px;
+    }
+
+    .footer-right img {
+        width: 50px;
+    }
+}

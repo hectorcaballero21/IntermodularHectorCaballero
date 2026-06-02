@@ -1,0 +1,345 @@
+body {
+    background-image: url("/img/fondohospi.png");
+    background-size: cover;
+    background-position: center 40%;
+    font-family: Abadi, sans-serif;
+    color: #2C2C2C;
+    margin: 0;
+}
+
+.logo-sescam-ver-pacientes {
+    position: absolute;
+    top: 10%;
+    left: 1%;
+    width: 430px;
+    z-index: -1;
+}
+
+.contenedor-principal-pacientes {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.contenedor-busqueda-pacientes {
+    background: rgba(255, 255, 255, 0.88);
+    padding: 25px 30px;
+    border: 2px solid #004080;
+    margin-left: 23%;
+    border-radius: 12px;
+    width: 20%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+.contenedor-busqueda-pacientes h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.select-filtro-pacientes,
+.input-busqueda-pacientes {
+    font-size: 20px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #004080;
+}
+
+.btn-buscar-pacientes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #004080;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.25s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-buscar-pacientes:hover {
+    background: #0060c0;
+    transform: scale(1.03);
+}
+
+.icono-boton-pacientes {
+    width: 30px;
+    height: 30px;
+}
+
+.tabla-pacientes-box {
+    background: rgba(255, 255, 255, 0.92);
+    padding: 20px 25px;
+    border-radius: 12px;
+    border: 2px solid #004080;
+    width: 55%;
+    min-height: 500px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+.titulo-tabla-pacientes {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.tabla-pacientes-real {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+.tabla-pacientes-real tbody tr {
+    height: 72px;
+}
+
+.btn-consultar-pacientes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #004080;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.25s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-consultar-pacientes:hover {
+    background: #0060c0;
+    transform: scale(1.03);
+    color: white;
+}
+
+.paginacion-pacientes {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.paginacion-pacientes button {
+    background: #004080;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.paginacion-pacientes button:hover:not(:disabled) {
+    background: #0060c0;
+    transform: scale(1.04);
+}
+
+.paginacion-pacientes button:disabled {
+    background: #9aa7b3;
+    cursor: not-allowed;
+}
+
+.paginacion-pacientes span {
+    font-size: 18px;
+    font-weight: bold;
+    color: #004080;
+}
+
+@media (max-width: 1500px) {
+    .logo-sescam-ver-pacientes {
+        width: 220px;
+        top: 95px;
+        left: 3px;
+    }
+
+    body {
+        background-position: center -85%;
+    }
+
+    .contenedor-principal-pacientes {
+        top: 15%;
+    }
+
+    .contenedor-busqueda-pacientes {
+        width: 25%;
+        min-height: 330px;
+        margin-left: 20%;
+    }
+
+    .contenedor-busqueda-pacientes * {
+        font-size: 20px;
+    }
+
+    .contenedor-busqueda-pacientes h2 {
+        font-size: 20px;
+    }
+
+    .btn-buscar-pacientes .icono-boton-pacientes {
+        width: 24px;
+        height: 24px;
+    }
+
+    .tabla-pacientes-box {
+        width: 60%;
+        min-height: 470px;
+    }
+
+    .tabla-pacientes-box th {
+        font-size: 18px;
+    }
+
+    .tabla-pacientes-box tr {
+        font-size: 18px;
+    }
+
+    .btn-consultar-pacientes {
+        padding: 8px 12px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 856px) {
+    .logo-sescam-ver-pacientes {
+        width: 150px;
+        top: 160px;
+    }
+
+    .contenedor-busqueda-pacientes {
+        width: 25%;
+        margin-left: 20%;
+    }
+
+    .contenedor-busqueda-pacientes * {
+        font-size: 15px;
+    }
+
+    .contenedor-busqueda-pacientes h2 {
+        font-size: 15px;
+    }
+
+    .btn-buscar-pacientes {
+        font-size: 15px;
+    }
+
+    .btn-buscar-pacientes .icono-boton-pacientes {
+        width: 22px;
+        height: 22px;
+    }
+
+    .tabla-pacientes-box {
+        width: 60%;
+    }
+
+    .tabla-pacientes-box th {
+        font-size: 15px;
+    }
+
+    .tabla-pacientes-box tr {
+        font-size: 15px;
+    }
+
+    .btn-consultar-pacientes {
+        padding: 6px 10px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 646px) {
+    .logo-sescam-ver-pacientes {
+        width: 120px;
+        top: 30px;
+        left: 8px;
+        margin-top: 17%;
+    }
+
+    body {
+        background-position: center -15%;
+    }
+
+    .contenedor-busqueda-pacientes {
+        width: 25%;
+        margin-left: 20%;
+    }
+
+    .contenedor-busqueda-pacientes * {
+        font-size: 15px;
+    }
+
+    .contenedor-busqueda-pacientes h2 {
+        font-size: 16px;
+    }
+
+    .btn-buscar-pacientes {
+        font-size: 14px;
+    }
+
+    .tabla-pacientes-box {
+        width: 60%;
+        margin-left: -4%;
+    }
+
+    .tabla-pacientes-box th {
+        font-size: 12px;
+    }
+
+    .tabla-pacientes-box tr {
+        font-size: 12px;
+    }
+
+    .btn-consultar-pacientes {
+        padding: 2px 5px;
+        font-size: 12px;
+    }
+
+    .paginacion-pacientes {
+        gap: 8px;
+    }
+
+    .paginacion-pacientes button {
+        padding: 7px 10px;
+        font-size: 12px;
+    }
+
+    .paginacion-pacientes span {
+        font-size: 12px;
+    }
+}
+
+.paginacion-pacientes label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #004080;
+}
+
+.selector-pagina-pacientes {
+    min-width: 70px;
+    height: 40px;
+    border: 2px solid #004080;
+    border-radius: 10px;
+    padding: 4px 10px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #004080;
+    background: white;
+    cursor: pointer;
+}

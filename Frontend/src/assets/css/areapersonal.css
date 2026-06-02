@@ -1,0 +1,186 @@
+body {
+    margin: 0;
+    font-family: Abadi, Arial, sans-serif;
+    color: #2C2C2C;
+}
+
+.area-main {
+    position: relative;
+    min-height: calc(100vh - 78px - 185px);
+    margin-top: 90px;
+    background-image: url("/img/fondohospi.png");
+    background-size: cover;
+    background-position: center center;
+    overflow: hidden;
+}
+
+.area-main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.35);
+    z-index: 0;
+}
+
+.area-logo-sescam {
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    width: 370px;
+    z-index: 1;
+}
+
+/* BLOQUE ANTIGUO OCULTO */
+.area-info-card {
+    display: none;
+}
+
+.area-info-card h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 14px 0;
+}
+
+.area-info-card p {
+    font-size: 24px;
+    margin: 0;
+}
+
+/* CONTENEDOR NUEVO */
+.area-panel-superior {
+    position: relative;
+    z-index: 3;
+}
+
+.area-calendario-layout {
+    position: relative;
+    left: 130px;
+    z-index: 3;
+}
+
+/* TARJETA CITAS */
+.area-citas-card {
+    position: absolute;
+    top: 105px;
+    right: 6%;
+    width: 680px;
+    padding: 22px 24px 34px;
+    background: rgba(255, 255, 255, 0.93);
+    border: 2px solid #004080;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 3;
+}
+
+.area-citas-card h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 18px 0;
+}
+
+/* TABLA */
+.area-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 20px;
+}
+
+.area-table th {
+    background-color: #212529;
+    color: white;
+    padding: 10px;
+    border: 1px solid #444;
+}
+
+.area-table td {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* ESTADOS */
+.estado-badge {
+    display: inline-block;
+    min-width: 105px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.estado-pendiente {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffe082;
+}
+
+.estado-completada {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #81c784;
+}
+
+.estado-cancelada {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #e57373;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1400px) {
+    .area-logo-sescam {
+        width: 320px;
+        left: 25px;
+    }
+
+    .area-citas-card {
+        right: 4%;
+        width: 640px;
+    }
+
+    .area-calendario-layout {
+        left: 90px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .area-main {
+        min-height: 900px;
+    }
+
+    .area-logo-sescam {
+        width: 260px;
+        left: 20px;
+    }
+
+    .area-citas-card {
+        position: relative;
+        width: 90%;
+        margin: 220px auto 30px;
+        right: auto;
+        top: auto;
+    }
+
+    .area-calendario-layout {
+        left: 0;
+    }
+}
+
+.calendario-citas-layout {
+    position: relative;
+    left: 180px;
+}
+
+@media (max-width: 1400px) {
+    .calendario-citas-layout {
+        left: 120px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .calendario-citas-layout {
+        left: 0;
+    }
+}

@@ -1,0 +1,276 @@
+body {
+    background-image: url("/img/fondohospi.png");
+    background-size: cover;
+    background-position: center 40%;
+    font-family: Abadi, sans-serif;
+    color: #2C2C2C;
+    margin: 0;
+}
+
+.logo-sescam-nueva-cita {
+    position: absolute;
+    top: 10%;
+    left: 1%;
+    width: 430px;
+    z-index: -1;
+}
+
+.contenedor-formulario-cita {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.88);
+    border: 2px solid #004080;
+    border-radius: 12px;
+    padding: 28px 42px;
+    width: 430px;
+    max-height: calc(100vh - 270px);
+    box-shadow: 0 0 12px rgba(0,0,0,0.30);
+    text-align: center;
+    overflow: hidden;
+}
+
+.titulo-cita {
+    font-size: 27px;
+    font-weight: bold;
+    margin: 0 0 18px 0;
+}
+
+.campo-cita {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 13px;
+    font-size: 17px;
+}
+
+.campo-cita label {
+    margin: 0;
+}
+
+.input-cita {
+    width: 100%;
+    height: 42px;
+    font-size: 18px;
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    box-sizing: border-box;
+}
+
+.textarea-cita {
+    height: 92px;
+    resize: none;
+}
+
+.btn-confirmar-cita {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 60%;
+    height: 45px;
+    margin: 4px auto 0;
+    font-size: 19px;
+    background: #5f5c5c;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.btn-confirmar-cita:hover {
+    background: #00ad00;
+}
+
+.icono-boton-cita {
+    width: 30px;
+    height: 30px;
+}
+
+@media (max-width: 1500px) {
+    .logo-sescam-nueva-cita {
+        width: 220px;
+        top: 95px;
+        left: 3px;
+    }
+
+    body {
+        background-position: center -85%;
+    }
+
+    .contenedor-formulario-cita {
+        top: 15%;
+        width: 390px;
+        padding: 24px 38px;
+        max-height: calc(100vh - 250px);
+    }
+
+    .titulo-cita {
+        font-size: 24px;
+        margin-bottom: 14px;
+    }
+
+    .campo-cita {
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+
+    .input-cita {
+        height: 38px;
+        font-size: 16px;
+        padding: 6px 11px;
+    }
+
+    .textarea-cita {
+        height: 78px;
+    }
+
+    .btn-confirmar-cita {
+        height: 41px;
+        font-size: 17px;
+    }
+
+    .icono-boton-cita {
+        width: 27px;
+        height: 27px;
+    }
+}
+
+@media (max-width: 992px) {
+    .logo-sescam-nueva-cita {
+        width: 220px;
+        top: 95px;
+        left: 3px;
+    }
+
+    .contenedor-formulario-cita {
+        top: 15%;
+        width: 380px;
+        padding: 22px 34px;
+    }
+}
+
+@media (max-width: 720px) {
+    .logo-sescam-nueva-cita {
+        width: 150px;
+        top: 30px;
+        left: 8px;
+        margin-top: 17%;
+    }
+
+    body {
+        background-position: center -15%;
+    }
+
+    .contenedor-formulario-cita {
+        top: 17%;
+        width: 58%;
+        left: 58%;
+        padding: 16px 22px;
+        max-height: calc(100vh - 210px);
+    }
+
+    .titulo-cita {
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+
+    .campo-cita {
+        margin-bottom: 8px;
+        font-size: 13px;
+        gap: 4px;
+    }
+
+    .input-cita {
+        height: 32px;
+        font-size: 13px;
+        padding: 4px 8px;
+    }
+
+    .textarea-cita {
+        height: 60px;
+    }
+
+    .btn-confirmar-cita {
+        width: 78%;
+        height: 36px;
+        font-size: 13px;
+    }
+
+    .icono-boton-cita {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+.horas-ocupadas-box {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid #004080;
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.horas-ocupadas-box p {
+    font-weight: bold;
+    margin: 0 0 6px 0;
+    font-size: 15px;
+}
+
+.horas-ocupadas-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.hora-ocupada-btn {
+    border: none;
+    background: #b00020;
+    color: white;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.hora-ocupada-btn:hover {
+    background: #d0002b;
+    transform: scale(1.05);
+}
+
+.cita-ocupada-modal {
+    border: 3px solid #004080;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.cita-ocupada-header {
+    background: #17c2dc;
+    color: #2C2C2C;
+    font-weight: bold;
+}
+
+.cita-ocupada-body {
+    font-size: 18px;
+}
+
+.cita-ocupada-body p {
+    margin-bottom: 10px;
+}
+
+.input-fecha-paciente {
+    cursor: pointer;
+}
+
+.contenedor-formulario-cita {
+    overflow: visible;
+}
+
+.input-fecha-cita {
+    cursor: pointer;
+}

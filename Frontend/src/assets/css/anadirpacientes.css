@@ -1,0 +1,285 @@
+body {
+    background-image: url("/img/fondohospi.png");
+    background-size: cover;
+    background-position: center 40%;
+    font-family: Abadi, sans-serif;
+    color: #2C2C2C;
+    margin: 0;
+}
+
+.logo-sescam-nuevo-paciente {
+    position: absolute;
+    top: 10%;
+    left: 1%;
+    width: 430px;
+    z-index: -1;
+}
+
+.contenedor-paciente {
+    position: absolute;
+    top: 10%;
+    left: 55%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-height: calc(100vh - 270px);
+    overflow: hidden;
+    background: rgba(255,255,255,0.9);
+    padding: 8px 15px 10px;
+    border-radius: 12px;
+    border: 2px solid #004080;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+.contenedor-paciente h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.ficha-paciente {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ficha-paciente .dato {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ficha-paciente label {
+    font-weight: bold;
+    margin-bottom: 1px;
+}
+
+.input-dato {
+    padding: 4px 8px;
+    font-size: 17px;
+    border-radius: 6px;
+    border: 1px solid #004080;
+    height: 34px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input-dato:focus {
+    border-color: #00a3c7;
+    box-shadow: 0 0 0 3px rgba(23, 194, 220, 0.25);
+}
+
+.input-fecha-paciente {
+    cursor: pointer;
+}
+
+.input-error {
+    border: 2px solid #dc3545 !important;
+    background: rgba(220, 53, 69, 0.08);
+}
+
+.mensaje-error {
+    color: #b00020;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 2px;
+}
+
+.btn-confirmar-paciente {
+    position: sticky;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 320px;
+    height: 50px;
+    margin: 10px 0 0 auto;
+    font-size: 20px;
+    font-weight: bold;
+    background: #004080;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    transition: 0.25s;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transform: translateY(-560px);
+}
+
+.btn-confirmar-paciente:hover {
+    background: #00ad00;
+}
+
+.icono-boton-paciente {
+    width: 32px;
+    height: 32px;
+}
+
+.textarea-historial {
+    min-height: 70px;
+    max-height: 70px;
+    resize: none;
+    overflow-y: auto;
+}
+
+@media (max-width: 1500px) {
+    .logo-sescam-nuevo-paciente {
+        width: 220px;
+        top: 95px;
+        left: 3px;
+    }
+
+    body {
+        background-position: center -85%;
+    }
+
+    .contenedor-paciente {
+        width: 58%;
+        top: 13%;
+        left: 55%;
+        max-height: calc(100vh - 250px);
+        padding: 8px 14px 10px;
+    }
+
+    .contenedor-paciente h2 {
+        font-size: 22px;
+        margin-bottom: 6px;
+    }
+
+    .ficha-paciente .dato {
+        font-size: 16px;
+    }
+
+    .input-dato {
+        height: 30px;
+        font-size: 15px;
+        padding: 3px 7px;
+    }
+
+    .mensaje-error {
+        font-size: 12px;
+    }
+
+    .btn-confirmar-paciente {
+        height: 42px;
+        font-size: 17px;
+        margin-top: 4px;
+    }
+
+    .icono-boton-paciente {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 992px) {
+    .logo-sescam-nuevo-paciente {
+        width: 220px;
+        top: 95px;
+        left: 3px;
+    }
+
+    .contenedor-paciente {
+        width: 62%;
+        left: 56%;
+        top: 14%;
+        max-height: calc(100vh - 245px);
+    }
+
+    .contenedor-paciente h2 {
+        font-size: 20px;
+    }
+
+    .ficha-paciente .dato {
+        font-size: 15px;
+    }
+
+    .input-dato {
+        height: 29px;
+        font-size: 14px;
+    }
+
+    .btn-confirmar-paciente {
+        width: 55%;
+        height: 40px;
+        font-size: 15px;
+    }
+
+    .icono-boton-paciente {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+@media (max-width: 616px) {
+    .logo-sescam-nuevo-paciente {
+        width: 150px;
+        top: 30px;
+        left: 8px;
+        margin-top: 17%;
+    }
+
+    body {
+        background-position: center -15%;
+    }
+
+    .contenedor-paciente {
+        width: 58%;
+        left: 57%;
+        top: 18%;
+        max-height: calc(100vh - 210px);
+        padding: 6px 10px;
+    }
+
+    .contenedor-paciente h2 {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .ficha-paciente {
+        gap: 3px;
+    }
+
+    .ficha-paciente .dato {
+        font-size: 13px;
+    }
+
+    .input-dato {
+        height: 26px;
+        font-size: 13px;
+        padding: 2px 6px;
+    }
+
+    .mensaje-error {
+        font-size: 11px;
+    }
+
+    .btn-confirmar-paciente {
+        min-width: auto;
+        width: 78%;
+        height: 36px;
+        font-size: 13px;
+    }
+
+    .icono-boton-paciente {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+.input-fecha-paciente {
+    cursor: pointer;
+}
+
+.contenedor-formulario-cita {
+    overflow: visible;
+}
+
+.input-fecha-cita {
+    cursor: pointer;
+}
+
+.contenedor-paciente .custom-calendar-popover {
+    margin-top: -18px;
+}
