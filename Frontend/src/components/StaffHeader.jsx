@@ -2,22 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../assets/css/sharedLayout.css'
 import { createUsuario, deleteUsuario, getUsuarios } from '../services/usuarioService'
+import { createAlerta, deleteAlerta, getAlertas, updateAlerta } from '../services/alertaService'
 import { useToast } from '../context/ToastContext'
 
-const alertasIniciales = [
-  {
-    tipo: 'Urgente',
-    texto: 'Revisar citas pendientes antes de finalizar el turno.',
-  },
-  {
-    tipo: 'Aviso',
-    texto: 'Actualización del sistema programada para esta noche.',
-  },
-  {
-    tipo: 'Info',
-    texto: 'Comprueba los datos del paciente antes de guardar una cita.',
-  },
-]
 
 function StaffHeader() {
   const navigate = useNavigate()
@@ -54,27 +41,38 @@ function StaffHeader() {
   const [mostrarConfirmacionEliminar, setMostrarConfirmacionEliminar] = useState(false)
   const [eliminandoUsuario, setEliminandoUsuario] = useState(false)
 
-  const [alertas, setAlertas] = useState(() => {
-    try {
-      const guardadas = JSON.parse(localStorage.getItem('alertasInternas') || 'null')
-      return Array.isArray(guardadas) && guardadas.length > 0 ? guardadas : alertasIniciales
-    } catch {
-      return alertasIniciales
-    }
-  })
-
+  const [alertas, setAlertas] = useState([])
+  const [cargandoAlertas, setCargandoAlertas] = useState(true)
   const [formAlerta, setFormAlerta] = useState({
     tipo: 'Info',
+    titulo: '',
     texto: '',
+    activa: true,
   })
 
-  const [indiceAlertaEditando, setIndiceAlertaEditando] = useState(null)
+  const [alertaEditando, setAlertaEditando] = useState(null)
 
   const usuariosPorPagina = 5
 
+  const cargarAlertas = async () => {
+    setCargandoAlertas(true)
+
+    try {
+      const res = await getAlertas()
+      const alertasRecibidas = res.data || []
+      setAlertas(alertasRecibidas.filter((alerta) => alerta.activa !== false))
+    } catch (error) {
+      console.error(error)
+      setAlertas([])
+      showToast('No se pudieron cargar las alertas', 'error')
+    } finally {
+      setCargandoAlertas(false)
+    }
+  }
+
   useEffect(() => {
-    localStorage.setItem('alertasInternas', JSON.stringify(alertas))
-  }, [alertas])
+    cargarAlertas()
+  }, [])
 
   const cerrarSesion = () => {
     localStorage.removeItem('usuario')
@@ -217,16 +215,23 @@ function StaffHeader() {
   const limpiarFormularioAlerta = () => {
     setFormAlerta({
       tipo: 'Info',
+      titulo: '',
       texto: '',
+      activa: true,
     })
-    setIndiceAlertaEditando(null)
+    setAlertaEditando(null)
   }
 
-  const guardarAlerta = (e) => {
+  const guardarAlerta = async (e) => {
     e.preventDefault()
 
     if (!formAlerta.tipo.trim()) {
       showToast('El tipo de alerta es obligatorio', 'warning')
+      return
+    }
+
+    if (!formAlerta.titulo.trim()) {
+      showToast('El título de la alerta es obligatorio', 'warning')
       return
     }
 
@@ -242,40 +247,55 @@ function StaffHeader() {
 
     const alertaGuardada = {
       tipo: formAlerta.tipo.trim(),
+      titulo: formAlerta.titulo.trim(),
       texto: formAlerta.texto.trim(),
+      activa: true,
     }
 
-    if (indiceAlertaEditando !== null) {
-      setAlertas((prev) =>
-        prev.map((alerta, index) =>
-          index === indiceAlertaEditando ? alertaGuardada : alerta,
-        ),
-      )
-      showToast('Alerta modificada correctamente', 'success')
-    } else {
-      setAlertas((prev) => [...prev, alertaGuardada])
-      showToast('Alerta añadida correctamente', 'success')
-    }
+    try {
+      if (alertaEditando) {
+        const id = alertaEditando.id ?? alertaEditando.idAlerta
+        await updateAlerta(id, alertaGuardada)
+        showToast('Alerta modificada correctamente', 'success')
+      } else {
+        await createAlerta(alertaGuardada)
+        showToast('Alerta añadida correctamente', 'success')
+      }
 
-    limpiarFormularioAlerta()
-  }
-
-  const editarAlerta = (index) => {
-    setFormAlerta({
-      tipo: alertas[index].tipo || 'Info',
-      texto: alertas[index].texto || '',
-    })
-    setIndiceAlertaEditando(index)
-  }
-
-  const eliminarAlerta = (index) => {
-    setAlertas((prev) => prev.filter((_, i) => i !== index))
-
-    if (indiceAlertaEditando === index) {
       limpiarFormularioAlerta()
+      await cargarAlertas()
+    } catch (error) {
+      console.error(error)
+      showToast('No se pudo guardar la alerta', 'error')
     }
+  }
 
-    showToast('Alerta eliminada correctamente', 'success')
+  const editarAlerta = (alerta) => {
+    setFormAlerta({
+      tipo: alerta.tipo || 'Info',
+      titulo: alerta.titulo || '',
+      texto: alerta.texto || '',
+      activa: alerta.activa !== false,
+    })
+    setAlertaEditando(alerta)
+  }
+
+  const eliminarAlerta = async (alerta) => {
+    const id = alerta.id ?? alerta.idAlerta
+
+    try {
+      await deleteAlerta(id)
+      await cargarAlertas()
+
+      if (alertaEditando && Number(alertaEditando.id ?? alertaEditando.idAlerta) === Number(id)) {
+        limpiarFormularioAlerta()
+      }
+
+      showToast('Alerta eliminada correctamente', 'success')
+    } catch (error) {
+      console.error(error)
+      showToast('No se pudo eliminar la alerta', 'error')
+    }
   }
 
   const totalPaginasUsuarios = Math.max(1, Math.ceil(usuarios.length / usuariosPorPagina))
@@ -376,15 +396,20 @@ function StaffHeader() {
             </div>
 
             <div className="modal-body alertas-modal-body">
-              {alertas.length === 0 ? (
+              {cargandoAlertas ? (
+                <p className="alertas-vacias">
+                  Cargando alertas internas...
+                </p>
+              ) : alertas.length === 0 ? (
                 <p className="alertas-vacias">
                   No hay alertas internas registradas.
                 </p>
               ) : (
-                alertas.map((alerta, index) => (
-                  <div key={index} className="alerta-modal-item alerta-modal-item-admin">
+                alertas.map((alerta) => (
+                  <div key={alerta.id ?? alerta.idAlerta} className="alerta-modal-item alerta-modal-item-admin">
                     <div>
                       <span>{alerta.tipo}</span>
+                      {alerta.titulo && <strong className="alerta-titulo">{alerta.titulo}</strong>}
                       <p>{alerta.texto}</p>
                     </div>
 
@@ -393,7 +418,7 @@ function StaffHeader() {
                         <button
                           type="button"
                           className="btn-alerta-editar"
-                          onClick={() => editarAlerta(index)}
+                          onClick={() => editarAlerta(alerta)}
                         >
                           Modificar
                         </button>
@@ -401,7 +426,7 @@ function StaffHeader() {
                         <button
                           type="button"
                           className="btn-alerta-eliminar"
-                          onClick={() => eliminarAlerta(index)}
+                          onClick={() => eliminarAlerta(alerta)}
                         >
                           Eliminar
                         </button>
@@ -414,7 +439,7 @@ function StaffHeader() {
               {esAdmin && (
                 <form className="alerta-admin-form" onSubmit={guardarAlerta}>
                   <h6>
-                    {indiceAlertaEditando !== null
+                    {alertaEditando
                       ? 'Modificar alerta interna'
                       : 'Añadir alerta interna'}
                   </h6>
@@ -426,22 +451,33 @@ function StaffHeader() {
                     onChange={handleAlertaChange}
                   >
                     <option value="Urgente">Urgente</option>
-                    <option value="Aviso">Aviso</option>
+                    <option value="Sanitaria">Sanitaria</option>
+                    <option value="Mantenimiento">Mantenimiento</option>
                     <option value="Info">Info</option>
                   </select>
+
+                  <label>Título:</label>
+                  <input
+                    type="text"
+                    name="titulo"
+                    maxLength="100"
+                    value={formAlerta.titulo}
+                    onChange={handleAlertaChange}
+                    placeholder="Título de la alerta"
+                  />
 
                   <label>Texto:</label>
                   <textarea
                     name="texto"
                     rows="3"
-                    maxLength="250"
+                    maxLength="500"
                     value={formAlerta.texto}
                     onChange={handleAlertaChange}
                     placeholder="Escribe el texto de la alerta"
                   />
 
                   <div className="alerta-admin-form-actions">
-                    {indiceAlertaEditando !== null && (
+                    {alertaEditando && (
                       <button
                         type="button"
                         className="btn-alerta-cancelar"
@@ -452,7 +488,7 @@ function StaffHeader() {
                     )}
 
                     <button type="submit" className="btn-alerta-guardar">
-                      {indiceAlertaEditando !== null ? 'Guardar cambios' : 'Añadir alerta'}
+                      {alertaEditando ? 'Guardar cambios' : 'Añadir alerta'}
                     </button>
                   </div>
                 </form>

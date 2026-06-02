@@ -1410,3 +1410,25 @@ td:hover {
     transform: scale(1.06);
     text-shadow: none;
 }
+
+.alerta-titulo {
+    display: block;
+    color: var(--corporate-blue);
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 6px;
+}
+
+.alerta-admin-form input {
+    width: 100%;
+    border: 2px solid var(--corporate-blue);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 16px;
+    background: white;
+}
+
+.alerta-admin-form input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(23, 194, 220, 0.25);
+}

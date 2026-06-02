@@ -284,7 +284,6 @@ body {
     margin-top: -18px;
 }
 
-/* Estado de guardado en añadir paciente */
 .btn-form-cargando,
 .btn-form-cargando:hover {
     background: #0060c0 !important;

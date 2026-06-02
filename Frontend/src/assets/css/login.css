@@ -321,7 +321,6 @@ footer {
     }
 }
 
-/* Estado de carga del login */
 .btn-login-cargando,
 .btn-login-cargando:hover {
     background: linear-gradient(135deg, #004080, #0060c0) !important;

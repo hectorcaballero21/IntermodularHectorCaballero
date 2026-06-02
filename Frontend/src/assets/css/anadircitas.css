@@ -275,7 +275,6 @@ body {
     cursor: pointer;
 }
 
-/* Estados de carga en añadir cita */
 .form-loading-box {
     min-height: 260px;
     display: flex;

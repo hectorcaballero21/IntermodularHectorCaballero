@@ -88,7 +88,6 @@ body {
     margin: 18px 0;
 }
 
-/* TABLA */
 .horario-tabla-card {
     width: 940px;
     min-height: 420px;
@@ -153,7 +152,6 @@ body {
     background: rgba(23,194,220,0.15);
 }
 
-/* BADGES */
 .estado-badge {
     display: inline-block;
     min-width: 105px;
@@ -182,7 +180,6 @@ body {
     border: 1px solid #e57373;
 }
 
-/* RESPONSIVE */
 @media (max-width: 1400px) {
     .horario-layout {
         left: 170px;
