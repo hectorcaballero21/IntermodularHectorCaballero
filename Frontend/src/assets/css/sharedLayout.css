@@ -1432,3 +1432,309 @@ td:hover {
     outline: none;
     box-shadow: 0 0 0 3px rgba(23, 194, 220, 0.25);
 }
+
+
+.mensaje-admin-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mensaje-admin-form label {
+    color: var(--corporate-blue);
+    font-weight: 900;
+}
+
+.mensaje-admin-form input,
+.mensaje-admin-form textarea {
+    width: 100%;
+    border: 2px solid var(--corporate-blue);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 16px;
+    background: white;
+}
+
+.mensaje-admin-form textarea {
+    resize: none;
+}
+
+.mensaje-admin-form input:focus,
+.mensaje-admin-form textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(23, 194, 220, 0.25);
+}
+
+.btn-mensaje-admin {
+    background: linear-gradient(135deg, #008c3a, #00ad63);
+}
+
+.btn-mensaje-admin:hover {
+    background: linear-gradient(135deg, #00ad63, #14c985);
+}
+
+.btn-ver-alertas-usuario {
+    background: linear-gradient(135deg, #ffc107, #ffca2c);
+    color: #212529;
+}
+
+.btn-ver-alertas-usuario:hover {
+    background: linear-gradient(135deg, #ffca2c, #ffd95a);
+    color: #212529;
+}
+
+.btn-ver-mensajes-admin {
+    background: linear-gradient(135deg, #6f42c1, #845ef7);
+}
+
+.btn-ver-mensajes-admin:hover {
+    background: linear-gradient(135deg, #845ef7, #9775fa);
+}
+
+.mensajes-modal-content {
+    min-height: 520px;
+}
+
+.mensajes-admin-lista {
+    width: 100%;
+    max-height: 380px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mensaje-admin-item {
+    width: 100%;
+    border: 2px solid rgba(0, 64, 128, 0.18);
+    border-left: 6px solid var(--corporate-blue);
+    border-radius: 12px;
+    background: rgba(0, 64, 128, 0.06);
+    padding: 13px 15px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.mensaje-admin-item:hover {
+    background: rgba(23, 194, 220, 0.18);
+    transform: translateY(-2px);
+}
+
+.mensaje-no-leido {
+    border-left-color: #dc3545;
+    background: rgba(255, 193, 7, 0.12);
+}
+
+.mensaje-leido {
+    opacity: 0.85;
+}
+
+.mensaje-admin-asunto {
+    color: var(--corporate-blue);
+    font-weight: 900;
+}
+
+.mensaje-punto {
+    color: #dc3545;
+    margin-right: 6px;
+}
+
+.mensaje-admin-item small {
+    color: #495057;
+    font-weight: 700;
+}
+
+.mensaje-detalle-box {
+    width: 100%;
+    background: rgba(0, 64, 128, 0.08);
+    border-left: 6px solid var(--corporate-blue);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.mensaje-detalle-box strong {
+    display: block;
+    color: var(--corporate-blue);
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.mensaje-detalle-box p {
+    margin: 0;
+    white-space: pre-wrap;
+    line-height: 1.45;
+}
+
+@media (max-width: 768px) {
+    .mensaje-admin-item {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.btn-mensajes-pendientes {
+    position: relative;
+    background: linear-gradient(135deg, #dc3545, #ff6b6b) !important;
+    animation: pulso-mensajes 1.2s ease-in-out infinite;
+}
+
+.btn-mensajes-pendientes::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 13px;
+    height: 13px;
+    background: #ffc107;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+@keyframes pulso-mensajes {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.55);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+.mensaje-respuesta-box {
+    width: 100%;
+    background: rgba(0, 140, 58, 0.08);
+    border-left: 6px solid #008c3a;
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: #2C2C2C;
+}
+
+.mensaje-respuesta-box strong {
+    display: block;
+    color: #008c3a;
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.mensaje-respuesta-box p {
+    margin: 0 0 8px 0;
+    white-space: pre-wrap;
+    line-height: 1.45;
+}
+
+.mensaje-respuesta-box small {
+    display: block;
+    color: #155724;
+    font-weight: 800;
+}
+
+.respuesta-admin-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 6px;
+    padding: 16px;
+    border: 2px solid rgba(0, 64, 128, 0.2);
+    border-radius: 14px;
+    background: rgba(0, 64, 128, 0.05);
+}
+
+.respuesta-admin-form label {
+    color: var(--corporate-blue);
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.respuesta-admin-form textarea {
+    width: 100%;
+    border: 2px solid var(--corporate-blue);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 16px;
+    background: white;
+    resize: none;
+}
+
+.respuesta-admin-form textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(23, 194, 220, 0.25);
+}
+
+.btn-responder-mensaje {
+    background: linear-gradient(135deg, #008c3a, #00ad63) !important;
+    align-self: flex-end;
+}
+
+.btn-responder-mensaje:hover {
+    background: linear-gradient(135deg, #00ad63, #14c985) !important;
+}
+
+
+.btn-ver-mensajes-usuario {
+    background: linear-gradient(135deg, #6f42c1, #845ef7);
+}
+
+.btn-ver-mensajes-usuario:hover {
+    background: linear-gradient(135deg, #845ef7, #9775fa);
+}
+
+.mensaje-usuario-item {
+    width: 100%;
+    border: 2px solid rgba(0,64,128,0.18);
+    border-radius: 14px;
+    padding: 16px;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.mensaje-usuario-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.mensaje-usuario-header strong {
+    color: var(--corporate-blue);
+    font-size: 18px;
+}
+
+.mensaje-usuario-body {
+    width: 100%;
+}
+
+.mensaje-usuario-body small {
+    display: block;
+    color: #6c757d;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.mensaje-usuario-body p {
+    margin-bottom: 8px;
+    white-space: pre-wrap;
+}
+
+.respuesta-admin-box {
+    background: rgba(23,194,220,0.12);
+    border-left: 5px solid var(--corporate-cyan);
+    padding: 12px;
+    border-radius: 10px;
+    color: #2C2C2C;
+    font-weight: 600;
+    white-space: pre-wrap;
+    margin-bottom: 10px;
+}

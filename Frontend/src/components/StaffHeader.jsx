@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import '../assets/css/sharedLayout.css'
 import { createUsuario, deleteUsuario, getUsuarios } from '../services/usuarioService'
 import { createAlerta, deleteAlerta, getAlertas, updateAlerta } from '../services/alertaService'
+import { createMensajeContacto, deleteMensajeContacto, getMensajesContacto, marcarMensajeComoLeido, responderMensajeContacto } from '../services/mensajeContactoService'
 import { useToast } from '../context/ToastContext'
 
 
@@ -51,6 +52,17 @@ function StaffHeader() {
   })
 
   const [alertaEditando, setAlertaEditando] = useState(null)
+
+  const [mensajesContacto, setMensajesContacto] = useState([])
+  const [cargandoMensajes, setCargandoMensajes] = useState(false)
+  const [mensajeSeleccionado, setMensajeSeleccionado] = useState(null)
+  const [formMensajeContacto, setFormMensajeContacto] = useState({
+    asunto: '',
+    mensaje: '',
+  })
+  const [formRespuestaMensaje, setFormRespuestaMensaje] = useState({
+    respuesta: '',
+  })
 
   const usuariosPorPagina = 5
 
@@ -297,6 +309,184 @@ function StaffHeader() {
       showToast('No se pudo eliminar la alerta', 'error')
     }
   }
+
+
+  const cargarMensajesContacto = async (avisarNoLeidos = false) => {
+    setCargandoMensajes(true)
+
+    try {
+      const res = await getMensajesContacto()
+      const mensajesRecibidos = res.data || []
+      setMensajesContacto(mensajesRecibidos)
+
+      const totalNoLeidos = mensajesRecibidos.filter((mensaje) => !mensaje.leido).length
+
+      if (avisarNoLeidos && totalNoLeidos > 0) {
+        showToast(`Tienes ${totalNoLeidos} mensaje(s) sin leer`, 'warning')
+      }
+    } catch (error) {
+      console.error(error)
+      setMensajesContacto([])
+      showToast('No se pudieron cargar los mensajes', 'error')
+    } finally {
+      setCargandoMensajes(false)
+    }
+  }
+
+  useEffect(() => {
+    if (esAdmin) {
+      cargarMensajesContacto(true)
+    }
+  }, [esAdmin])
+
+  const handleMensajeContactoChange = (e) => {
+    setFormMensajeContacto({
+      ...formMensajeContacto,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const enviarMensajeContacto = async (e) => {
+    e.preventDefault()
+
+    if (!formMensajeContacto.asunto.trim()) {
+      showToast('El asunto es obligatorio', 'warning')
+      return
+    }
+
+    if (!formMensajeContacto.mensaje.trim()) {
+      showToast('El mensaje es obligatorio', 'warning')
+      return
+    }
+
+    if (formMensajeContacto.mensaje.trim().length < 5) {
+      showToast('El mensaje debe tener al menos 5 caracteres', 'warning')
+      return
+    }
+
+    try {
+      await createMensajeContacto({
+        idUsuario: idUsuarioLogeado ? Number(idUsuarioLogeado) : null,
+        nombre: `${usuarioLogeado?.nombre || ''} ${usuarioLogeado?.apellidos || ''}`.trim() || 'Usuario',
+        email: usuarioLogeado?.email || '',
+        asunto: formMensajeContacto.asunto.trim(),
+        mensaje: formMensajeContacto.mensaje.trim(),
+        leido: false,
+      })
+
+      setFormMensajeContacto({
+        asunto: '',
+        mensaje: '',
+      })
+
+      showToast('Mensaje enviado al administrador', 'success')
+    } catch (error) {
+      console.error(error)
+      showToast('No se pudo enviar el mensaje', 'error')
+    }
+  }
+
+  const seleccionarMensajeContacto = async (mensaje) => {
+    setMensajeSeleccionado(mensaje)
+    setFormRespuestaMensaje({
+      respuesta: mensaje.respuesta || '',
+    })
+
+    const id = mensaje.id ?? mensaje.idMensaje
+
+    if (!mensaje.leido && id) {
+      try {
+        await marcarMensajeComoLeido(id)
+        setMensajesContacto((prev) =>
+          prev.map((item) =>
+            Number(item.id ?? item.idMensaje) === Number(id)
+              ? { ...item, leido: true }
+              : item,
+          ),
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
+
+  const eliminarMensajeContacto = async (mensaje) => {
+    const id = mensaje.id ?? mensaje.idMensaje
+
+    try {
+      await deleteMensajeContacto(id)
+      setMensajesContacto((prev) =>
+        prev.filter((item) => Number(item.id ?? item.idMensaje) !== Number(id)),
+      )
+      setMensajeSeleccionado(null)
+      showToast('Mensaje eliminado correctamente', 'success')
+    } catch (error) {
+      console.error(error)
+      showToast('No se pudo eliminar el mensaje', 'error')
+    }
+  }
+
+  const handleRespuestaMensajeChange = (e) => {
+    setFormRespuestaMensaje({
+      ...formRespuestaMensaje,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const responderMensajeSeleccionado = async (e) => {
+    e.preventDefault()
+
+    if (!mensajeSeleccionado) return
+
+    if (!formRespuestaMensaje.respuesta.trim()) {
+      showToast('La respuesta no puede estar vacía', 'warning')
+      return
+    }
+
+    if (formRespuestaMensaje.respuesta.trim().length < 5) {
+      showToast('La respuesta debe tener al menos 5 caracteres', 'warning')
+      return
+    }
+
+    const id = mensajeSeleccionado.id ?? mensajeSeleccionado.idMensaje
+
+    try {
+      const res = await responderMensajeContacto(id, {
+        respuesta: formRespuestaMensaje.respuesta.trim(),
+      })
+
+      const mensajeActualizado = res.data || {
+        ...mensajeSeleccionado,
+        respuesta: formRespuestaMensaje.respuesta.trim(),
+        fechaRespuesta: new Date().toISOString(),
+        leido: true,
+      }
+
+      setMensajeSeleccionado(mensajeActualizado)
+      setMensajesContacto((prev) =>
+        prev.map((item) =>
+          Number(item.id ?? item.idMensaje) === Number(id)
+            ? mensajeActualizado
+            : item,
+        ),
+      )
+      setFormRespuestaMensaje({
+        respuesta: mensajeActualizado.respuesta || '',
+      })
+      showToast('Respuesta enviada correctamente', 'success')
+    } catch (error) {
+      console.error(error)
+      showToast('No se pudo responder el mensaje', 'error')
+    }
+  }
+
+  const formatearFechaMensaje = (fecha) => {
+    if (!fecha) return 'Sin fecha'
+
+    return new Date(fecha).toLocaleString('es-ES')
+  }
+
+  const mensajesNoLeidos = mensajesContacto.filter((mensaje) => !mensaje.leido).length
 
   const totalPaginasUsuarios = Math.max(1, Math.ceil(usuarios.length / usuariosPorPagina))
 
@@ -563,6 +753,49 @@ function StaffHeader() {
                   >
                     Ver usuarios
                   </button>
+
+                  <button
+                    type="button"
+                    className={`btn-admin-usuario btn-ver-mensajes-admin ${mensajesNoLeidos > 0 ? 'btn-mensajes-pendientes' : ''}`}
+                    data-bs-toggle="modal"
+                    data-bs-target="#mensajesContactoModal"
+                    onClick={() => cargarMensajesContacto(false)}
+                  >
+                    {mensajesNoLeidos > 0 ? `Ver mensajes (${mensajesNoLeidos} sin leer)` : 'Ver mensajes'}
+                  </button>
+                </div>
+              )}
+
+              {!esAdmin && (
+                <div className="admin-actions admin-actions-multiple">
+                  <button
+                    type="button"
+                    className="btn-admin-usuario btn-ver-alertas-usuario"
+                    data-bs-toggle="modal"
+                    data-bs-target="#alertasHeaderModal"
+                  >
+                    Ver alertas internas
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn-admin-usuario btn-mensaje-admin"
+                    data-bs-toggle="modal"
+                    data-bs-target="#enviarMensajeAdminModal"
+                  >
+                    Enviar mensaje al admin
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn-admin-usuario btn-ver-mensajes-usuario"
+                    data-bs-toggle="modal"
+                    data-bs-target="#misMensajesUsuarioModal"
+                    onClick={() => cargarMensajesContacto(false)}
+                  >
+                    Mis mensajes
+                  </button>
+                  
                 </div>
               )}
             </div>
@@ -827,6 +1060,308 @@ function StaffHeader() {
                 </>
               ) : (
                 <p>No se ha seleccionado ningún usuario.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div className="modal fade" id="enviarMensajeAdminModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content usuario-modal-content">
+            <div className="modal-header usuario-modal-header modal-header-con-volver">
+              <button
+                type="button"
+                className="btn-modal-volver"
+                data-bs-toggle="modal"
+                data-bs-target="#usuarioModal"
+                title="Volver a datos del usuario"
+              >
+                ←
+              </button>
+
+              <h5 className="modal-title">Enviar mensaje al administrador</h5>
+
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <div className="modal-body usuario-modal-body">
+              <form className="mensaje-admin-form" onSubmit={enviarMensajeContacto}>
+                <label>Asunto:</label>
+                <input
+                  type="text"
+                  name="asunto"
+                  maxLength="150"
+                  value={formMensajeContacto.asunto}
+                  onChange={handleMensajeContactoChange}
+                  placeholder="Ej: Problema con una cita"
+                />
+
+                <label>Mensaje:</label>
+                <textarea
+                  name="mensaje"
+                  rows="5"
+                  value={formMensajeContacto.mensaje}
+                  onChange={handleMensajeContactoChange}
+                  placeholder="Escribe el mensaje para el administrador"
+                />
+
+                <button type="submit" className="btn-admin-usuario">
+                  Enviar mensaje
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="modal fade" id="mensajesContactoModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div className="modal-content usuario-modal-content mensajes-modal-content">
+            <div className="modal-header usuario-modal-header modal-header-con-volver">
+              <button
+                type="button"
+                className="btn-modal-volver"
+                data-bs-toggle="modal"
+                data-bs-target="#usuarioModal"
+                title="Volver a datos del usuario"
+              >
+                ←
+              </button>
+
+              <h5 className="modal-title">Mensajes recibidos</h5>
+
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <div className="modal-body usuario-modal-body">
+              {cargandoMensajes ? (
+                <p className="alertas-vacias">Cargando mensajes...</p>
+              ) : mensajesContacto.length === 0 ? (
+                <p className="alertas-vacias">No hay mensajes recibidos.</p>
+              ) : (
+                <div className="mensajes-admin-lista">
+                  {mensajesContacto.map((mensaje) => (
+                    <button
+                      key={mensaje.id ?? mensaje.idMensaje}
+                      type="button"
+                      className={`mensaje-admin-item ${mensaje.leido ? 'mensaje-leido' : 'mensaje-no-leido'}`}
+                      data-bs-toggle="modal"
+                      data-bs-target="#detalleMensajeContactoModal"
+                      onClick={() => seleccionarMensajeContacto(mensaje)}
+                    >
+                      <span className="mensaje-admin-asunto">
+                        {!mensaje.leido && <strong className="mensaje-punto">●</strong>}
+                        {mensaje.asunto || 'Sin asunto'}
+                      </span>
+
+                      <span>{mensaje.nombre || 'Usuario'}</span>
+                      <small>{formatearFechaMensaje(mensaje.fechaEnvio)}</small>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="modal fade" id="detalleMensajeContactoModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content usuario-modal-content">
+            <div className="modal-header usuario-modal-header modal-header-con-volver">
+              <button
+                type="button"
+                className="btn-modal-volver"
+                data-bs-toggle="modal"
+                data-bs-target="#mensajesContactoModal"
+                title="Volver a mensajes"
+              >
+                ←
+              </button>
+
+              <h5 className="modal-title">Detalle del mensaje</h5>
+
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <div className="modal-body usuario-modal-body">
+              {mensajeSeleccionado ? (
+                <>
+                  <div className="usuario-dato">
+                    <strong>De:</strong>
+                    <span>{mensajeSeleccionado.nombre || 'Usuario'}</span>
+                  </div>
+
+                  <div className="usuario-dato">
+                    <strong>Email:</strong>
+                    <span>{mensajeSeleccionado.email || 'No disponible'}</span>
+                  </div>
+
+                  <div className="usuario-dato">
+                    <strong>Fecha:</strong>
+                    <span>{formatearFechaMensaje(mensajeSeleccionado.fechaEnvio)}</span>
+                  </div>
+
+                  <div className="mensaje-detalle-box">
+                    <strong>{mensajeSeleccionado.asunto || 'Sin asunto'}</strong>
+                    <p>{mensajeSeleccionado.mensaje || 'Sin mensaje'}</p>
+                  </div>
+
+                  {mensajeSeleccionado.respuesta && (
+                    <div className="mensaje-respuesta-box">
+                      <strong>Respuesta enviada:</strong>
+                      <p>{mensajeSeleccionado.respuesta}</p>
+
+                      {mensajeSeleccionado.fechaRespuesta && (
+                        <small>
+                          Respondido el {formatearFechaMensaje(mensajeSeleccionado.fechaRespuesta)}
+                        </small>
+                      )}
+                    </div>
+                  )}
+
+                  <form className="respuesta-admin-form" onSubmit={responderMensajeSeleccionado}>
+                    <label>
+                      {mensajeSeleccionado.respuesta ? 'Modificar respuesta:' : 'Responder al usuario:'}
+                    </label>
+
+                    <textarea
+                      name="respuesta"
+                      rows="4"
+                      value={formRespuestaMensaje.respuesta}
+                      onChange={handleRespuestaMensajeChange}
+                      placeholder="Escribe la respuesta para el usuario"
+                    />
+
+                    <button type="submit" className="btn-admin-usuario btn-responder-mensaje">
+                      {mensajeSeleccionado.respuesta ? 'Actualizar respuesta' : 'Enviar respuesta'}
+                    </button>
+                  </form>
+
+                  <div className="admin-actions admin-actions-multiple">
+                    <button
+                      type="button"
+                      className="btn-eliminar-usuario-admin"
+                      onClick={() => eliminarMensajeContacto(mensajeSeleccionado)}
+                    >
+                      Eliminar mensaje
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <p>No se ha seleccionado ningún mensaje.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div className="modal fade" id="misMensajesUsuarioModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div className="modal-content usuario-modal-content mensajes-modal-content">
+            <div className="modal-header usuario-modal-header modal-header-con-volver">
+              <button
+                type="button"
+                className="btn-modal-volver"
+                data-bs-toggle="modal"
+                data-bs-target="#usuarioModal"
+                title="Volver a datos del usuario"
+              >
+                ←
+              </button>
+
+              <h5 className="modal-title">Mis mensajes</h5>
+
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <div className="modal-body usuario-modal-body">
+              {cargandoMensajes ? (
+                <p className="alertas-vacias">Cargando mensajes...</p>
+              ) : mensajesContacto.filter(
+                (mensaje) => Number(mensaje.idUsuario) === Number(idUsuarioLogeado),
+              ).length === 0 ? (
+                <p className="alertas-vacias">
+                  No has enviado mensajes todavía.
+                </p>
+              ) : (
+                <div className="mensajes-admin-lista">
+                  {mensajesContacto
+                    .filter(
+                      (mensaje) => Number(mensaje.idUsuario) === Number(idUsuarioLogeado),
+                    )
+                    .map((mensaje) => (
+                      <div
+                        key={mensaje.id ?? mensaje.idMensaje}
+                        className="mensaje-usuario-item"
+                      >
+                        <div className="mensaje-usuario-header">
+                          <strong>{mensaje.asunto || 'Sin asunto'}</strong>
+
+                          {mensaje.respuesta ? (
+                            <span className="badge bg-success">
+                              Respondido
+                            </span>
+                          ) : (
+                            <span className="badge bg-warning text-dark">
+                              Pendiente
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="mensaje-usuario-body">
+                          <small>
+                            Enviado el {formatearFechaMensaje(mensaje.fechaEnvio)}
+                          </small>
+
+                          <p>
+                            <strong>Mensaje:</strong>
+                          </p>
+
+                          <p>{mensaje.mensaje || 'Sin mensaje'}</p>
+
+                          {mensaje.respuesta && (
+                            <>
+                              <hr />
+
+                              <p>
+                                <strong>Respuesta del administrador:</strong>
+                              </p>
+
+                              <div className="respuesta-admin-box">
+                                {mensaje.respuesta}
+                              </div>
+
+                              {mensaje.fechaRespuesta && (
+                                <small>
+                                  Respondido el {formatearFechaMensaje(mensaje.fechaRespuesta)}
+                                </small>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                </div>
               )}
             </div>
           </div>
