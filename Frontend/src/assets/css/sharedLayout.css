@@ -233,7 +233,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    min-height: 132px;
+    min-height: 72px;
     background: linear-gradient(135deg, #004080 0%, #0066a8 45%, #17c2dc 100%) !important;
     border-top: 6px solid #083b52 !important;
     box-shadow: 0 -5px 18px rgba(0,0,0,0.28) !important;
@@ -242,7 +242,7 @@
     grid-template-columns: 1.2fr 0.7fr 1.35fr;
     align-items: center;
     gap: 24px;
-    padding: 18px 42px;
+    padding: 3px 25px;
     box-sizing: border-box;
 }
 
