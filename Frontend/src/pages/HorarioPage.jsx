@@ -272,6 +272,24 @@ function HorarioPage() {
                       {citaSeleccionada.estado || 'pendiente'}
                     </span>
                   </p>
+
+                  {String(citaSeleccionada.estado || '').toLowerCase() === 'completada' && (
+                    <>
+                      <div className="mensaje-detalle-box">
+                        <strong>Diagnóstico:</strong>
+                        <p>
+                          {citaSeleccionada.diagnostico || 'Sin diagnóstico registrado'}
+                        </p>
+                      </div>
+
+                      <div className="mensaje-detalle-box">
+                        <strong>Tratamiento:</strong>
+                        <p>
+                          {citaSeleccionada.tratamiento || 'Sin tratamiento registrado'}
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </>
               ) : (
                 <p>
