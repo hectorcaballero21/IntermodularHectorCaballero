@@ -213,3 +213,42 @@ body {
         left: 20px;
     }
 }
+
+.estado-carga-tabla {
+    min-height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #004080;
+    font-size: 19px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.spinner-carga {
+    width: 34px;
+    height: 34px;
+    border: 4px solid rgba(0, 64, 128, 0.18);
+    border-top-color: #004080;
+    border-radius: 50%;
+    animation: girarCarga 0.85s linear infinite;
+    flex-shrink: 0;
+}
+
+.mensaje-error-carga {
+    height: 92px;
+    color: #b00020 !important;
+    font-weight: 900;
+    text-align: center !important;
+}
+
+@keyframes girarCarga {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

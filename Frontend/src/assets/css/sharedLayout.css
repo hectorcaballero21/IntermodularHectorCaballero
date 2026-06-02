@@ -1395,3 +1395,18 @@ td:hover {
         flex-direction: column;
     }
 }
+
+.footer-custom .footer-center a {
+    color: #f4fdff !important;
+    background: rgba(255, 255, 255, 0.10);
+    padding: 5px 14px;
+    border-radius: 999px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.28);
+}
+
+.footer-custom .footer-center a:hover {
+    color: var(--corporate-blue-dark) !important;
+    background: rgba(255, 255, 255, 0.88);
+    transform: scale(1.06);
+    text-shadow: none;
+}

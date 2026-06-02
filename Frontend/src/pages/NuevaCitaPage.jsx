@@ -17,6 +17,8 @@ function NuevaCitaPage() {
   const [pacientes, setPacientes] = useState([])
   const [citas, setCitas] = useState([])
   const [citaModal, setCitaModal] = useState(null)
+  const [cargandoDatos, setCargandoDatos] = useState(true)
+  const [guardandoCita, setGuardandoCita] = useState(false)
 
   const [form, setForm] = useState({
     fecha: '',
@@ -26,19 +28,38 @@ function NuevaCitaPage() {
   })
 
   useEffect(() => {
-    getPacientes()
-      .then((res) => setPacientes(res.data))
-      .catch(() => {
-        setPacientes([])
-        showToast('No se pudieron cargar los pacientes', 'error')
-      })
+    let activo = true
 
-    getCitas()
-      .then((res) => setCitas(res.data))
-      .catch(() => {
+    const cargarDatos = async () => {
+      setCargandoDatos(true)
+
+      try {
+        const [resPacientes, resCitas] = await Promise.all([
+          getPacientes(),
+          getCitas(),
+        ])
+
+        if (!activo) return
+
+        setPacientes(resPacientes.data || [])
+        setCitas(resCitas.data || [])
+      } catch (error) {
+        if (!activo) return
+
+        console.error(error)
+        setPacientes([])
         setCitas([])
-        showToast('No se pudieron cargar las citas', 'error')
-      })
+        showToast('No se pudieron cargar los datos necesarios', 'error')
+      } finally {
+        if (activo) setCargandoDatos(false)
+      }
+    }
+
+    cargarDatos()
+
+    return () => {
+      activo = false
+    }
   }, [])
 
   const usuarioIdLogeado = usuarioLogeado?.id ?? usuarioLogeado?.idUsuario
@@ -161,6 +182,8 @@ function NuevaCitaPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (guardandoCita) return
+
     if (!validarFormulario()) return
 
     const citaOcupada = buscarCitaPorHora(form.hora)
@@ -170,6 +193,8 @@ function NuevaCitaPage() {
       showToast('Esa hora ya está ocupada', 'warning')
       return
     }
+
+    setGuardandoCita(true)
 
     try {
       await createCita({
@@ -190,6 +215,7 @@ function NuevaCitaPage() {
     } catch (error) {
       console.error(error)
       showToast('Error al crear la cita', 'error')
+      setGuardandoCita(false)
     }
   }
 
@@ -206,7 +232,13 @@ function NuevaCitaPage() {
       <div className="contenedor-formulario-cita">
         <h2 className="titulo-cita">Añadir nueva cita</h2>
 
-        <form onSubmit={handleSubmit}>
+        {cargandoDatos ? (
+          <div className="form-loading-box">
+            <span className="form-loading-spinner"></span>
+            <p>Cargando pacientes y horarios...</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
           <div className="campo-cita">
             <label>Paciente:</label>
 
@@ -309,15 +341,29 @@ function NuevaCitaPage() {
             />
           </div>
 
-          <button type="submit" className="btn-confirmar-cita">
-            <img
-              src="/img/agregarcita.png"
-              className="icono-boton-cita"
-              alt="añadir"
-            />
-            Añadir cita
+          <button
+            type="submit"
+            className={`btn-confirmar-cita ${guardandoCita ? 'btn-form-cargando' : ''}`}
+            disabled={guardandoCita}
+          >
+            {guardandoCita ? (
+              <>
+                <span className="form-loading-spinner"></span>
+                Guardando cita...
+              </>
+            ) : (
+              <>
+                <img
+                  src="/img/agregarcita.png"
+                  className="icono-boton-cita"
+                  alt="añadir"
+                />
+                Añadir cita
+              </>
+            )}
           </button>
         </form>
+        )}
       </div>
 
       <div className="modal fade" id="citaOcupadaModal" tabIndex="-1">

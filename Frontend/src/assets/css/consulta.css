@@ -133,7 +133,8 @@ body {
     line-height: 1.4;
 }
 
-.btn-historial {
+.btn-historial,
+.btn-modificar-paciente {
     background: #004080;
     color: white;
     border: none;
@@ -145,9 +146,25 @@ body {
     transition: 0.25s;
 }
 
-.btn-historial:hover {
+.btn-historial:hover,
+.btn-modificar-paciente:hover {
     background: #0060c0;
     transform: translateY(-2px);
+}
+
+.btn-modificar-paciente {
+    background: #198754;
+}
+
+.btn-modificar-paciente:hover {
+    background: #157347;
+}
+
+.acciones-consulta-paciente {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .historial-modal-content {
@@ -247,4 +264,161 @@ body {
     background: #f8d7da;
     color: #721c24;
     border: 1px solid #e57373;
+}
+
+.modal-edicion-paciente-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-edicion-paciente-card {
+    width: min(760px, 95vw);
+    max-height: 88vh;
+    background: rgba(255, 255, 255, 0.98);
+    border: 3px solid #004080;
+    border-radius: 18px;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.38);
+    overflow: hidden;
+}
+
+.modal-edicion-paciente-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    background: #004080;
+    color: white;
+    padding: 15px 20px;
+}
+
+.modal-edicion-paciente-header h5 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.modal-edicion-paciente-header button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.modal-edicion-paciente-header button:hover {
+    background: white;
+    color: #004080;
+    transform: scale(1.08);
+}
+
+.modal-edicion-paciente-body {
+    max-height: 58vh;
+    overflow-y: auto;
+    padding: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+}
+
+.modal-edicion-paciente-body label {
+    color: #004080;
+    font-weight: 900;
+    margin-bottom: -4px;
+}
+
+.modal-edicion-paciente-body input,
+.modal-edicion-paciente-body textarea {
+    width: 100%;
+    border: 2px solid #004080;
+    border-radius: 9px;
+    padding: 9px 12px;
+    font-size: 16px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.modal-edicion-paciente-body input:focus,
+.modal-edicion-paciente-body textarea:focus {
+    box-shadow: 0 0 0 4px rgba(23, 194, 220, 0.22);
+    border-color: #17c2dc;
+}
+
+.modal-edicion-paciente-body textarea,
+.modal-edicion-paciente-body label:last-of-type {
+    grid-column: 1 / -1;
+}
+
+.modal-edicion-paciente-body textarea {
+    resize: none;
+}
+
+.modal-edicion-paciente-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(0, 64, 128, 0.2);
+}
+
+.btn-cancelar-edicion-paciente,
+.btn-guardar-edicion-paciente {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-cancelar-edicion-paciente {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-cancelar-edicion-paciente:hover {
+    background: #5c636a;
+    transform: translateY(-2px);
+}
+
+.btn-guardar-edicion-paciente {
+    background: #198754;
+    color: white;
+}
+
+.btn-guardar-edicion-paciente:hover:not(:disabled) {
+    background: #157347;
+    transform: translateY(-2px);
+}
+
+.btn-guardar-edicion-paciente:disabled {
+    background: #9aa7b3;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .modal-edicion-paciente-body {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-edicion-paciente-body textarea,
+    .modal-edicion-paciente-body label:last-of-type {
+        grid-column: auto;
+    }
+
+    .modal-edicion-paciente-footer {
+        flex-direction: column;
+    }
 }

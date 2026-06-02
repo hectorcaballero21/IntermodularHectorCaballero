@@ -6,6 +6,8 @@ import { getCitas } from '../services/citaService'
 
 function AreaPersonalPage() {
   const [citas, setCitas] = useState([])
+  const [cargando, setCargando] = useState(true)
+  const [errorCarga, setErrorCarga] = useState(false)
   const [citaSeleccionada, setCitaSeleccionada] = useState(null)
 
   const hoy = new Date().toISOString().split('T')[0]
@@ -14,9 +16,28 @@ function AreaPersonalPage() {
   const usuarioLogeado = JSON.parse(localStorage.getItem('usuario') || 'null')
 
   useEffect(() => {
+    let activo = true
+
+    setCargando(true)
+    setErrorCarga(false)
+
     getCitas()
-      .then((res) => setCitas(res.data || []))
-      .catch(() => setCitas([]))
+      .then((res) => {
+        if (activo) setCitas(res.data || [])
+      })
+      .catch(() => {
+        if (activo) {
+          setCitas([])
+          setErrorCarga(true)
+        }
+      })
+      .finally(() => {
+        if (activo) setCargando(false)
+      })
+
+    return () => {
+      activo = false
+    }
   }, [])
 
   const normalizarHora = (hora) => {
@@ -120,7 +141,7 @@ function AreaPersonalPage() {
               </h2>
 
               <span>
-                {citasDelUsuarioPorFecha.length} cita(s)
+                {cargando ? 'Cargando...' : `${citasDelUsuarioPorFecha.length} cita(s)`}
               </span>
             </div>
 
@@ -135,7 +156,22 @@ function AreaPersonalPage() {
                 </thead>
 
                 <tbody>
-                  {citasDelUsuarioPorFecha.length === 0 ? (
+                  {cargando ? (
+                    <tr>
+                      <td colSpan="3">
+                        <div className="estado-carga-tabla">
+                          <span className="spinner-carga"></span>
+                          <span>Cargando tus citas...</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : errorCarga ? (
+                    <tr>
+                      <td colSpan="3" className="mensaje-error-carga">
+                        No se pudieron cargar las citas
+                      </td>
+                    </tr>
+                  ) : citasDelUsuarioPorFecha.length === 0 ? (
                     <tr>
                       <td colSpan="3">
                         No tienes citas para hoy

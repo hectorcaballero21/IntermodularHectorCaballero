@@ -283,3 +283,41 @@ body {
 .contenedor-paciente .custom-calendar-popover {
     margin-top: -18px;
 }
+
+/* Estado de guardado en añadir paciente */
+.btn-form-cargando,
+.btn-form-cargando:hover {
+    background: #0060c0 !important;
+    cursor: wait !important;
+    transform: translateY(-560px) !important;
+    opacity: 0.95;
+}
+
+.btn-form-cargando {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.form-loading-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,0.45);
+    border-top-color: white;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spinCarga 0.8s linear infinite;
+}
+
+.ficha-paciente input:disabled,
+.ficha-paciente textarea:disabled {
+    background: #e9ecef;
+    cursor: wait;
+}
+
+@keyframes spinCarga {
+    to {
+        transform: rotate(360deg);
+    }
+}

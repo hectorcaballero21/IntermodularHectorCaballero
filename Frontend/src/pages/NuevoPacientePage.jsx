@@ -24,6 +24,7 @@ function NuevoPacientePage() {
   })
 
   const [errores, setErrores] = useState({})
+  const [guardandoPaciente, setGuardandoPaciente] = useState(false)
 
   const limpiarTexto = (texto) => String(texto || '').trim()
   const validarDni = (dni) => /^[0-9]{8}[A-Za-z]$/.test(dni)
@@ -126,10 +127,14 @@ function NuevoPacientePage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (guardandoPaciente) return
+
     if (!validarFormulario()) {
       showToast('Revisa los campos marcados en rojo', 'warning')
       return
     }
+
+    setGuardandoPaciente(true)
 
     try {
       const resPacientes = await getPacientes()
@@ -146,6 +151,7 @@ function NuevoPacientePage() {
           dni: 'Ya existe un paciente con ese DNI',
         }))
         showToast('Ya existe un paciente con ese DNI', 'warning')
+        setGuardandoPaciente(false)
         return
       }
 
@@ -160,6 +166,7 @@ function NuevoPacientePage() {
           numeroSeguridadSocial: 'Ya existe un paciente con ese Nº Seguridad Social',
         }))
         showToast('Ya existe un paciente con ese Nº Seguridad Social', 'warning')
+        setGuardandoPaciente(false)
         return
       }
 
@@ -174,6 +181,7 @@ function NuevoPacientePage() {
           email: 'Ya existe un paciente con ese email',
         }))
         showToast('Ya existe un paciente con ese email', 'warning')
+        setGuardandoPaciente(false)
         return
       }
 
@@ -194,6 +202,7 @@ function NuevoPacientePage() {
     } catch (error) {
       console.error(error)
       showToast('No se pudo crear el paciente', 'error')
+      setGuardandoPaciente(false)
     }
   }
 
@@ -221,6 +230,7 @@ function NuevoPacientePage() {
               placeholder="Introduce el nombre"
               value={form.nombre}
               onChange={handleChange}
+              disabled={guardandoPaciente}
             />
             {errores.nombre && <span className="mensaje-error">{errores.nombre}</span>}
           </div>
@@ -235,6 +245,7 @@ function NuevoPacientePage() {
               placeholder="Introduce los apellidos"
               value={form.apellidos}
               onChange={handleChange}
+              disabled={guardandoPaciente}
             />
             {errores.apellidos && <span className="mensaje-error">{errores.apellidos}</span>}
           </div>
@@ -250,6 +261,7 @@ function NuevoPacientePage() {
               placeholder="Ej: 12345678A"
               value={form.dni}
               onChange={handleChange}
+              disabled={guardandoPaciente}
             />
             {errores.dni && <span className="mensaje-error">{errores.dni}</span>}
           </div>
@@ -265,6 +277,7 @@ function NuevoPacientePage() {
               placeholder="Ej: 600123456"
               value={form.telefono}
               onChange={handleChange}
+              disabled={guardandoPaciente}
             />
             {errores.telefono && <span className="mensaje-error">{errores.telefono}</span>}
           </div>
@@ -279,6 +292,7 @@ function NuevoPacientePage() {
               placeholder="Introduce el correo"
               value={form.email}
               onChange={handleChange}
+              disabled={guardandoPaciente}
             />
             {errores.email && <span className="mensaje-error">{errores.email}</span>}
           </div>
@@ -318,6 +332,7 @@ function NuevoPacientePage() {
               placeholder="Introduce la dirección"
               value={form.direccion}
               onChange={handleChange}
+              disabled={guardandoPaciente}
             />
             {errores.direccion && <span className="mensaje-error">{errores.direccion}</span>}
           </div>
@@ -333,6 +348,7 @@ function NuevoPacientePage() {
               placeholder="12 cifras"
               value={form.numeroSeguridadSocial}
               onChange={handleChange}
+              disabled={guardandoPaciente}
             />
             {errores.numeroSeguridadSocial && (
               <span className="mensaje-error">{errores.numeroSeguridadSocial}</span>
@@ -349,15 +365,29 @@ function NuevoPacientePage() {
               value={form.historialClinico}
               maxLength="1000"
               onChange={handleChange}
+              disabled={guardandoPaciente}
             />
             {errores.historialClinico && (
               <span className="mensaje-error">{errores.historialClinico}</span>
             )}
           </div>
 
-          <button type="submit" className="btn-confirmar-paciente">
-            <img src="/img/anadirusu.png" className="icono-boton-paciente" alt="agregar" />
-            Añadir paciente
+          <button
+            type="submit"
+            className={`btn-confirmar-paciente ${guardandoPaciente ? 'btn-form-cargando' : ''}`}
+            disabled={guardandoPaciente}
+          >
+            {guardandoPaciente ? (
+              <>
+                <span className="form-loading-spinner"></span>
+                Guardando paciente...
+              </>
+            ) : (
+              <>
+                <img src="/img/anadirusu.png" className="icono-boton-paciente" alt="agregar" />
+                Añadir paciente
+              </>
+            )}
           </button>
         </form>
       </div>

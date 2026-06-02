@@ -17,10 +17,6 @@ body {
     z-index: 5;
 }
 
-/* =========================
-   LOGIN
-========================= */
-
 .login-box {
     position: absolute;
     top: 50%;
@@ -114,10 +110,6 @@ body {
     box-shadow: 0 6px 14px rgba(0,64,128,0.3);
 }
 
-/* =========================
-   FOOTER
-========================= */
-
 footer {
     position: fixed;
     bottom: 0;
@@ -179,10 +171,6 @@ footer {
     width: 72px;
 }
 
-/* =========================
-   BOTÓN LEGAL
-========================= */
-
 .legal-btn {
     position: fixed;
     bottom: 14px;
@@ -209,9 +197,6 @@ footer {
     transform: scale(1.04);
 }
 
-/* =========================
-   W3C
-========================= */
 
 .w3c-logos {
     display: flex;
@@ -225,9 +210,6 @@ footer {
     height: 31px;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
 
 @media (max-width: 992px) {
 
@@ -336,5 +318,43 @@ footer {
 
     .footer-right img {
         width: 50px;
+    }
+}
+
+/* Estado de carga del login */
+.btn-login-cargando,
+.btn-login-cargando:hover {
+    background: linear-gradient(135deg, #004080, #0060c0) !important;
+    cursor: wait !important;
+    opacity: 0.95;
+    transform: none !important;
+}
+
+.btn-login-cargando {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-spinner,
+.form-loading-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,0.45);
+    border-top-color: white;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spinCarga 0.8s linear infinite;
+}
+
+.login-box input:disabled {
+    background: #e9ecef;
+    cursor: wait;
+}
+
+@keyframes spinCarga {
+    to {
+        transform: rotate(360deg);
     }
 }

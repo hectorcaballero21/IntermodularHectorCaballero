@@ -13,6 +13,7 @@ function LoginPage() {
   const [usuario, setUsuario] = useState('')
   const [contrasena, setContrasena] = useState('')
   const [errores, setErrores] = useState({})
+  const [cargandoLogin, setCargandoLogin] = useState(false)
 
   const validarFormulario = () => {
     const nuevosErrores = {}
@@ -35,10 +36,14 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (cargandoLogin) return
+
     if (!validarFormulario()) {
       showToast('Revisa los campos del formulario', 'warning')
       return
     }
+
+    setCargandoLogin(true)
 
     try {
       const res = await getUsuarios()
@@ -55,6 +60,7 @@ function LoginPage() {
 
       if (!usuarioEncontrado) {
         showToast('Usuario o contraseña incorrectos', 'error')
+        setCargandoLogin(false)
         return
       }
 
@@ -64,6 +70,7 @@ function LoginPage() {
     } catch (err) {
       console.error(err)
       showToast('No se pudo conectar con el servidor', 'error')
+      setCargandoLogin(false)
     }
   }
 
@@ -90,6 +97,7 @@ function LoginPage() {
               className={errores.usuario ? 'error-input' : ''}
               placeholder="Introduce tu usuario o email"
               value={usuario}
+              disabled={cargandoLogin}
               onChange={(e) => {
                 setUsuario(e.target.value)
                 setErrores({ ...errores, usuario: '' })
@@ -112,6 +120,7 @@ function LoginPage() {
               className={errores.contrasena ? 'error-input' : ''}
               placeholder="Introduce tu contraseña"
               value={contrasena}
+              disabled={cargandoLogin}
               onChange={(e) => {
                 setContrasena(e.target.value)
                 setErrores({ ...errores, contrasena: '' })
@@ -123,8 +132,19 @@ function LoginPage() {
             )}
           </div>
 
-          <button type="submit" className="btn btn-dark w-100 mt-2">
-            Entrar
+          <button
+            type="submit"
+            className={`btn btn-dark w-100 mt-2 ${cargandoLogin ? 'btn-login-cargando' : ''}`}
+            disabled={cargandoLogin}
+          >
+            {cargandoLogin ? (
+              <>
+                <span className="login-spinner"></span>
+                Iniciando sesión...
+              </>
+            ) : (
+              'Entrar'
+            )}
           </button>
         </form>
       </div>

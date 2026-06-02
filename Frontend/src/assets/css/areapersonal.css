@@ -31,7 +31,6 @@ body {
     z-index: 1;
 }
 
-/* BLOQUE ANTIGUO OCULTO */
 .area-info-card {
     display: none;
 }
@@ -47,7 +46,6 @@ body {
     margin: 0;
 }
 
-/* CONTENEDOR NUEVO */
 .area-panel-superior {
     position: relative;
     z-index: 3;
@@ -59,7 +57,6 @@ body {
     z-index: 3;
 }
 
-/* TARJETA CITAS */
 .area-citas-card {
     position: absolute;
     top: 105px;
@@ -79,7 +76,6 @@ body {
     margin: 0 0 18px 0;
 }
 
-/* TABLA */
 .area-table {
     width: 100%;
     border-collapse: collapse;
@@ -99,7 +95,6 @@ body {
     border: 1px solid #ddd;
 }
 
-/* ESTADOS */
 .estado-badge {
     display: inline-block;
     min-width: 105px;
@@ -128,7 +123,6 @@ body {
     border: 1px solid #e57373;
 }
 
-/* RESPONSIVE */
 @media (max-width: 1400px) {
     .area-logo-sescam {
         width: 320px;
@@ -182,5 +176,44 @@ body {
 @media (max-width: 1000px) {
     .calendario-citas-layout {
         left: 0;
+    }
+}
+
+.estado-carga-tabla {
+    min-height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #004080;
+    font-size: 19px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.spinner-carga {
+    width: 34px;
+    height: 34px;
+    border: 4px solid rgba(0, 64, 128, 0.18);
+    border-top-color: #004080;
+    border-radius: 50%;
+    animation: girarCarga 0.85s linear infinite;
+    flex-shrink: 0;
+}
+
+.mensaje-error-carga {
+    height: 92px;
+    color: #b00020 !important;
+    font-weight: 900;
+    text-align: center !important;
+}
+
+@keyframes girarCarga {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }

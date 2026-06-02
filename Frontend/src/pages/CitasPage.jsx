@@ -16,6 +16,7 @@ function CitasPage() {
   const [citaSeleccionada, setCitaSeleccionada] = useState(null)
   const [editando, setEditando] = useState(false)
   const [paginaActual, setPaginaActual] = useState(1)
+  const [cargandoCitas, setCargandoCitas] = useState(true)
 
   const citasPorPagina = 5
 
@@ -37,18 +38,26 @@ function CitasPage() {
   useEffect(() => {
     let activo = true
 
+    setCargandoCitas(true)
+
     getCitas()
       .then((res) => {
         if (activo) setCitas(res.data || [])
       })
       .catch(() => {
-        if (activo) setCitas([])
+        if (activo) {
+          setCitas([])
+          showToast('No se pudieron cargar las citas', 'error')
+        }
+      })
+      .finally(() => {
+        if (activo) setCargandoCitas(false)
       })
 
     return () => {
       activo = false
     }
-  }, [])
+  }, [showToast])
 
   useEffect(() => {
     setPaginaActual(1)
@@ -382,7 +391,16 @@ function CitasPage() {
               </thead>
 
               <tbody>
-                {filtradas.length === 0 ? (
+                {cargandoCitas ? (
+                  <tr>
+                    <td colSpan="5" className="sin-citas estado-carga-tabla">
+                    <div className="carga-tabla-contenido">
+                      <div className="spinner-carga" aria-hidden="true"></div>
+                      <span>Cargando citas...</span>
+                    </div>
+                  </td>
+                  </tr>
+                ) : filtradas.length === 0 ? (
                   <tr>
                     <td colSpan="5" className="sin-citas">
                       No hay citas para la búsqueda seleccionada
@@ -423,7 +441,7 @@ function CitasPage() {
           <div className="paginacion-citas">
             <button
               type="button"
-              disabled={paginaActual === 1}
+              disabled={cargandoCitas || paginaActual === 1}
               onClick={() => setPaginaActual((prev) => Math.max(1, prev - 1))}
             >
               Anterior
@@ -435,6 +453,7 @@ function CitasPage() {
               id="selector-pagina-citas"
               className="selector-pagina-citas"
               value={paginaActual}
+              disabled={cargandoCitas}
               onChange={(e) => setPaginaActual(Number(e.target.value))}
             >
               {Array.from({ length: totalPaginas }, (_, index) => (
@@ -448,7 +467,7 @@ function CitasPage() {
 
             <button
               type="button"
-              disabled={paginaActual === totalPaginas}
+              disabled={cargandoCitas || paginaActual === totalPaginas}
               onClick={() => setPaginaActual((prev) => Math.min(totalPaginas, prev + 1))}
             >
               Siguiente

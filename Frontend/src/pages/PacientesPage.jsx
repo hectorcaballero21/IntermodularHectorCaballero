@@ -15,17 +15,33 @@ function PacientesPage() {
   const [busqueda, setBusqueda] = useState('')
   const [busquedaValidada, setBusquedaValidada] = useState('')
   const [paginaActual, setPaginaActual] = useState(1)
+  const [cargandoPacientes, setCargandoPacientes] = useState(true)
 
   const pacientesPorPagina = 5
 
   useEffect(() => {
+    let activo = true
+
+    setCargandoPacientes(true)
+
     getPacientes()
-      .then((res) => setPacientes(res.data || []))
-      .catch(() => {
-        setPacientes([])
-        showToast('No se pudieron cargar los pacientes', 'error')
+      .then((res) => {
+        if (activo) setPacientes(res.data || [])
       })
-  }, [])
+      .catch(() => {
+        if (activo) {
+          setPacientes([])
+          showToast('No se pudieron cargar los pacientes', 'error')
+        }
+      })
+      .finally(() => {
+        if (activo) setCargandoPacientes(false)
+      })
+
+    return () => {
+      activo = false
+    }
+  }, [showToast])
 
   const validarBusqueda = () => {
     const valor = busqueda.trim()
@@ -207,7 +223,16 @@ function PacientesPage() {
             </thead>
 
             <tbody>
-              {pacientesPagina.length === 0 ? (
+              {cargandoPacientes ? (
+                <tr>
+                  <td colSpan="3" className="estado-carga-tabla">
+                  <div className="carga-tabla-contenido">
+                    <div className="spinner-carga" aria-hidden="true"></div>
+                    <span>Cargando pacientes...</span>
+                  </div>
+                </td>
+                </tr>
+              ) : pacientesPagina.length === 0 ? (
                 <tr>
                   <td colSpan="3">
                     No hay pacientes que coincidan con la búsqueda
@@ -240,7 +265,7 @@ function PacientesPage() {
           <div className="paginacion-pacientes">
             <button
               type="button"
-              disabled={paginaActual === 1}
+              disabled={cargandoPacientes || paginaActual === 1}
               onClick={() => setPaginaActual((prev) => Math.max(1, prev - 1))}
             >
               Anterior
@@ -254,6 +279,7 @@ function PacientesPage() {
               id="selector-pagina-pacientes"
               className="selector-pagina-pacientes"
               value={paginaActual}
+              disabled={cargandoPacientes}
               onChange={(e) => setPaginaActual(Number(e.target.value))}
             >
               {Array.from({ length: totalPaginas }, (_, index) => (
@@ -269,7 +295,7 @@ function PacientesPage() {
 
             <button
               type="button"
-              disabled={paginaActual === totalPaginas}
+              disabled={cargandoPacientes || paginaActual === totalPaginas}
               onClick={() => setPaginaActual((prev) => Math.min(totalPaginas, prev + 1))}
             >
               Siguiente

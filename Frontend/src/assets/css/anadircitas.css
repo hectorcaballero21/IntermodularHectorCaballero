@@ -274,3 +274,55 @@ body {
 .input-fecha-cita {
     cursor: pointer;
 }
+
+/* Estados de carga en añadir cita */
+.form-loading-box {
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #004080;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.form-loading-box .form-loading-spinner {
+    width: 42px;
+    height: 42px;
+    border: 5px solid rgba(0,64,128,0.18);
+    border-top-color: #004080;
+    border-radius: 50%;
+    animation: spinCarga 0.8s linear infinite;
+}
+
+.btn-form-cargando,
+.btn-form-cargando:hover {
+    background: #0060c0 !important;
+    cursor: wait !important;
+    transform: none !important;
+    opacity: 0.95;
+}
+
+.btn-form-cargando {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-form-cargando .form-loading-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,0.45);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spinCarga 0.8s linear infinite;
+}
+
+@keyframes spinCarga {
+    to {
+        transform: rotate(360deg);
+    }
+}
